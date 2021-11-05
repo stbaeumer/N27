@@ -1,0 +1,24 @@
+{
+  "name": "n27",
+  "version": "1.0.0",
+  "description": "Entwicklung einer Banking-App nach dem Vorbild der N26-Bank",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BerufskollegBorken/N27.git"
+  },
+  "author": "Stefan Bäumer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BerufskollegBorken/N27/issues"
+  },
+  "homepage": "https://github.com/BerufskollegBorken/N27#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  }
+}
