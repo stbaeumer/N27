@@ -13,3 +13,9 @@
 
 ## 16.11.2021
 
+* HTML-Grundgerüst in VSC erstellen: "html:5"
+* HTML-Grundgerüst mit den öffnenden und schließenden Tags verstehen.
+* Schließende Tags haben einen führenden "/"
+* Title in HTML einbauen
+* Überschrift in HTML erstellen: <h1>...</h1>
+* Absätze in HTML erstellen: <p>...</p>
