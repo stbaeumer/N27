@@ -1,0 +1,30 @@
+{
+  "name": "n27gw11a",
+  "version": "1.0.0",
+  "description": "Meine tolle Smartphone-BANK",
+  "main": "server.js",
+  "dependencies": {
+    "cookie": "^0.4.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "email-validator": "^2.0.4",
+    "express": "^4.16.4",
+    "iban": "0.0.12",
+    "mysql": "^2.18.1",
+    "node-ts-open-weather-map": "^1.2.1",
+    "nodemon": "^1.19.2",
+    "weather-js": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://stbaeumer@bitbucket.org/stbaeumer/n27gw11a.git"
+  },
+  "author": "Stefan",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/stbaeumer/n27gw11a#readme"
+}
