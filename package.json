@@ -8,7 +8,7 @@
     "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",
     "email-validator": "^2.0.4",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "iban": "0.0.12",
     "mysql": "^2.18.1",
     "node-ts-open-weather-map": "^1.2.1",
