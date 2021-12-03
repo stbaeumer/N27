@@ -1,12 +1,12 @@
 {
-  "name": "n27gw11a",
+  "name": "n27",
   "version": "1.0.0",
   "description": "Meine tolle Smartphone-BANK",
   "main": "server.js",
   "dependencies": {
     "cookie": "^0.4.1",
     "cookie-parser": "^1.4.4",
-    "ejs": "^2.6.1",
+    "ejs": "^2.7.4",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "iban": "0.0.12",

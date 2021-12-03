@@ -19,3 +19,17 @@
 * Überschrift in HTML erstellen: <h1>...</h1>
 * Absätze in HTML erstellen: <p>...</p>
 
+## 26.11.2021
+
+## 30.11.2021
+ * Am Anfang der Stunde wird der eigene Webserver im Terminal gestartet. Der Befehl wird mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt.
+ * Im Browser wird Inhalt über die Adresse ```localhost:3000``` aufgerufen.
+ * Der ```localhost``` ist der eigene Rechner.
+ * Mit dem Befehl ```ipconfig``` (bei Apple: ifconfig) wird die eigene IP-Adresse angezeigt. Die eigene IP-Adresse ist im Netzwerk eindeutig. 
+
+## 03.12.2021
+* Schriftart ändern mit CSS
+* HTML-Grundgerüst erstellen
+* Button erstellen
+* style einfügen über styles.css-Datei
+* Geschweifte Klammer mit ALTGr+7 erstellen
