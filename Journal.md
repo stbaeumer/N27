@@ -33,3 +33,8 @@
 * Button erstellen
 * style einfügen über styles.css-Datei
 * Geschweifte Klammer mit ALTGr+7 erstellen
+
+ ## 07.12.2021
+ * Schriftfarbe in der styles.css angepasst
+ * styles.css in public-Ordner verschoben
+ 
