@@ -38,3 +38,21 @@
  * Schriftfarbe in der styles.css angepasst
  * styles.css in public-Ordner verschoben
  
+ ## 10.12.2021
+ * verschiedene Elemente in HTML recherchieren und einbauen
+ * verschiedene Elemente in HTML stylen
+ * Gute und weniger gute Quellen im Internet erkennen. Gut sind beispielsweise w3schools oder selfhtml
+
+## 14.12.2021
+
+ * Bild einfügen
+ * Unterschied zwischen PNG and JPG/JPEG verstehen
+ * Alt-Tag beim Bild verstehen
+ * Hyperlink einbauen mit <a href...></a>
+ * Target beim Hyperlink verstehen. _blank öffnet im neuen Tab
+
+ ## 14.01.2022 - K2
+ * HTML 
+ * CSS
+
+ 
