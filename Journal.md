@@ -51,8 +51,20 @@
  * Hyperlink einbauen mit <a href...></a>
  * Target beim Hyperlink verstehen. _blank öffnet im neuen Tab
 
+## 17.12.2021
+ * Tabelle <table> einfügen
+ * Zeilen <tr> (=Table-Row) und Zellen <td> (=Table-data) in HTML-Tabellen verstehen 
+  * Listen (geordnet <ol> und ungeordnet <ul>) verstehen
+  * In ungeordneten Listen den Aufzählungspunkt durch Bild ersetzen
+  * Horizontale Linie <hr> einbauen
+
+## 21.12.2021
+ * Zeilenumbruch <br> einbauen
+
  ## 14.01.2022 - K2
- * HTML 
- * CSS
+ * Ein lauffähiges Projekt mit einer leeren index.ejs wird ausgeteilt. Es ist keine styles.css vorhanden.
+ * Die styles.css muss angelegt und richtig in der index.ejs eingebaut werden.
+ * Teil 1: HTML und CSS nach Vorgabe einbauen. dazu müssen die HTML-Konstrukte aus dem Unterricht bekannt sein. 
+ * Teil 2: Ein unbekanntes Konstrukt muss im Internet gesucht und eingebaut werden.
 
  
