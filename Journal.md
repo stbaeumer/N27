@@ -61,10 +61,17 @@
 ## 21.12.2021
  * Zeilenumbruch <br> einbauen
 
+## 11.01.2022
+Seiten zum Lernen von HTML:
+* https://wiki.selfhtml.org/wiki/HTML/Tutorials/Einstieg
+* https://www.w3schools.com/
+
+
  ## 14.01.2022 - K2
  * Ein lauffähiges Projekt mit einer leeren index.ejs wird ausgeteilt. Es ist keine styles.css vorhanden.
  * Die styles.css muss angelegt und richtig in der index.ejs eingebaut werden.
  * Teil 1: HTML und CSS nach Vorgabe einbauen. dazu müssen die HTML-Konstrukte aus dem Unterricht bekannt sein. 
  * Teil 2: Ein unbekanntes Konstrukt muss im Internet gesucht und eingebaut werden.
+ * Die Styles aus der styles.css müssen gekonnt werden. Es kann auch sein, dass unbekannte Styles nach Vorgabe eingebaut werden müssen. Beispiel: gebe der Tabelle einen Rahmen (border) mit der Dicke 1. 
 
  

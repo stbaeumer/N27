@@ -13,3 +13,8 @@ div {
 ul {
     list-style: square inside url("icon.png");
 }
+
+table {
+    border-color: blue;
+    background-color: cornsilk;
+}
