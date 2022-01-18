@@ -74,4 +74,7 @@ Seiten zum Lernen von HTML:
  * Teil 2: Ein unbekanntes Konstrukt muss im Internet gesucht und eingebaut werden.
  * Die Styles aus der styles.css müssen gekonnt werden. Es kann auch sein, dass unbekannte Styles nach Vorgabe eingebaut werden müssen. Beispiel: gebe der Tabelle einen Rahmen (border) mit der Dicke 1. 
 
- 
+ # 18.01.2022
+ * Weitere Seite erstellen, indem 
+  1. die index.ejs kopiert und umbenant wurde. 
+  2. Hyperlink erstellt wurde 
