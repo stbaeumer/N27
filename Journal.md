@@ -78,3 +78,10 @@ Seiten zum Lernen von HTML:
  * Weitere Seite erstellen, indem 
   1. die index.ejs kopiert und umbenant wurde. 
   2. Hyperlink erstellt wurde 
+
+# 21.01.2022
+  * login-Seite erstellen
+  * Formular aus w3schools kopiert und eingebaut
+  * Type der Inputs entsprechend von Text auf Password bzw. Number geändert
+  * die ID der Inputs setzen
+  * Verlinkung von login nach index und zurück erstellen
