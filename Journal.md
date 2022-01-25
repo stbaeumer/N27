@@ -85,3 +85,8 @@ Seiten zum Lernen von HTML:
   * Type der Inputs entsprechend von Text auf Password bzw. Number geändert
   * die ID der Inputs setzen
   * Verlinkung von login nach index und zurück erstellen
+
+# 25.01.2022
+  * Unterschied zwischen POST und GET verstehen. GET transportiert die Daten vom Browser zum Server über die Adresszeile. POST transportiert die Daten "hinter den Kulissen"
+  * Mit ALT + Tab zwischen Browser und VSC hin- und herspringen
+  * Unterschied zwischen app.get(...) und app.post(...) verstehen. app.get('login') wird ausgeführt, wenn die Login-Seite im Browser angefordert wird. app.post('login') wird ausgeführt, wenn der Button auf der Login-Seite gedrückt wird.
