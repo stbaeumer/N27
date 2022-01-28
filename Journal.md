@@ -90,3 +90,4 @@ Seiten zum Lernen von HTML:
   * Unterschied zwischen POST und GET verstehen. GET transportiert die Daten vom Browser zum Server über die Adresszeile. POST transportiert die Daten "hinter den Kulissen"
   * Mit ALT + Tab zwischen Browser und VSC hin- und herspringen
   * Unterschied zwischen app.get(...) und app.post(...) verstehen. app.get('login') wird ausgeführt, wenn die Login-Seite im Browser angefordert wird. app.post('login') wird ausgeführt, wenn der Button auf der Login-Seite gedrückt wird.
+  * App im Internet starten: http://n27xxxxxxx.herokuapp.com
