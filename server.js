@@ -60,7 +60,6 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
         serverAntwort.render('index.ejs', {})
     }
     serverAntwort.render('login.ejs', {})
-    
 })
 
 
