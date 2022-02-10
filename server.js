@@ -81,5 +81,5 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
     serverAntwort.render('index.ejs', {})          
 })
 
-
-require('./Uebungen/ifUndElse.js')
+// require('./Uebungen/ifUndElse.js')
+require('./Uebungen/klasseUndObjekt.js')
