@@ -25,6 +25,7 @@ spielerMueller.Verein = "FCB"
 
 
 
+
 // Übung 2
 // In einem Schulprogramm sollen Zeugnisse verwaltet werden. 
 // a) Identifizieren Sie das Objekt der realen Welt mit seinen relevanten Eigenschaften
