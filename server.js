@@ -89,7 +89,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
         // gerenderte Login-Seite an den Browser zurückgegeben.
 
         serverAntwort.render('login.ejs', {
-            meldung : "Ihr Zugangsdaten scheinen nicht zu stimmen."
+            meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
         })
     }
 })
