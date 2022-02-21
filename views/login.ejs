@@ -9,14 +9,15 @@
     </head>
     <body>    
         <div class="body-wrapper">
-                <h1>Bitte anmelden!</h1>
-                <form method="post">
-                    <label for="fname">Benutzer-ID:</label><br>
-                    <input type="number" name="IdKunde"><br>
-                    <label for="lname">Kennwort:</label><br>
-                    <input type="password" name="Kennwort"><br><br>        
-                    <button formaction="/login">Einloggen</button>
-                </form> 
+            <h1>Bitte anmelden!</h1>
+            <form method="post">
+                <label for="fname">Benutzer-ID:</label><br>
+                <input type="number" name="IdKunde"><br>
+                <label for="lname">Kennwort:</label><br>
+                <input type="password" name="Kennwort"><br><br>        
+                <button formaction="/login">Einloggen</button>
+            </form> 
+            <label><%= meldung %></label>
         </div>
     </body>
 </html>
