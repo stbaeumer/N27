@@ -44,8 +44,25 @@ const server = meineApp.listen(process.env.PORT || 3000, () => {
     console.log('Server lauscht auf Port %s', server.address().port)    
 })
 
+// Die Methode meineApp.get('/' ...) wird abgearbeitet, wenn
+// der Kunde die Indexseite ansurft.
+
 meineApp.get('/',(browserAnfrage, serverAntwort, next) => {              
-    serverAntwort.render('index.ejs', {})          
+    
+    if(true){
+
+        // Wenn der Kunde bereits angemeldet ist, soll die
+        // Index-Seite an den Browser gegeben werden.
+
+        serverAntwort.render('index.ejs',{})
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+        serverAntwort.render('login.ejs', {
+            meldung : ""
+        })
+    }                 
 })
 
 meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {              
@@ -71,7 +88,9 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
         // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
         // gerenderte Login-Seite an den Browser zurückgegeben.
 
-        serverAntwort.render('login.ejs', {})
+        serverAntwort.render('login.ejs', {
+            meldung : "Ihr Zugangsdaten scheinen nicht zu stimmen."
+        })
     }
 })
 
@@ -83,7 +102,9 @@ meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {
     // ... dann wird die login.ejs vom Server gerendert an den
     // Browser zurückgegeben:
 
-    serverAntwort.render('login.ejs', {})          
+    serverAntwort.render('login.ejs', {
+        meldung : "Bitte geben Sie die Zugangsdaten ein."
+    })          
 })
 
 // Die meineApp.post('login') wird ausgeführt, sobald der Button
