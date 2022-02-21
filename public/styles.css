@@ -1,16 +1,32 @@
 
-.body-wrapper {
+.rahmen {
   max-width: 400px;
+  /*height: 600px;*/
   border: 3px solid #4CAF50;
-  border-radius: 5px;    
-  padding: 20px;  
+  border-radius: 5px;      
   margin: 0 auto
 }
 
-input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+.header{
+  padding: 5px;
+  background: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.content{
+  min-height: 470px;
+}
+
+.footer{
+  padding: 2px;
+  background: #4CAF50;
+}
+
+input {  
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -19,12 +35,13 @@ input {
 }
   
 button {
-  width: 100%;
-  background-color: #4CAF50;
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  background-color:darkgray
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 2em;  
@@ -42,10 +59,25 @@ button {
   font-size: 6vw;  
 }*/
   
-label {    
+label {
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+      
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5em;  
-  color: green;
+  color:black;
+}
+
+.meldung {
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2vh;  
+  color: red;
 }
   
 .divii {
@@ -58,22 +90,17 @@ label {
   
 h1 {  
   text-align: center;
-  width: 100vw;
-  position: relative;
-  left: calc(-50vw + 50%);
-  margin: 10px;
-  background:#4CAF50;  
   color: white;
-  font-size: 2em; 
+  font-size: 3vh; 
   font-family: Arial, Helvetica, sans-serif;
 }
   
-  h2 {  
-    color: #4CAF50;  
-    font-size: 6vw; 
-    font-family: Arial, Helvetica, sans-serif;
-    text-align:center;
-  }
+h2 {  
+  color: #4CAF50;  
+  font-size: 6vw; 
+  font-family: Arial, Helvetica, sans-serif;
+  text-align:center;
+}
   
   nav {  
     font-family: Arial, Helvetica, sans-serif;    
@@ -87,13 +114,13 @@ h1 {
       border-right: 600rem solid rgb(13, 83, 72);
   }
    
-  a {  
-    color: white;  
-    text-decoration: none;
-   }
+a {  
+  color: white;  
+  text-decoration: none;
+  }
   
-   p {
-    color: red;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3vw; 
-   }
+p {
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3vw; 
+}
