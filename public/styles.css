@@ -1,3 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
+.body-wrapper {
+  width: 500px;
+  margin: auto;
+  border: 3px solid #73AD21;
+}
+
 input {
     width: 100%;
     padding: 12px 20px;
@@ -6,7 +16,7 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 6vw;  
+    font-size: 2em;  
   }
   
   button {
@@ -18,7 +28,7 @@ input {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 6vw;  
+    font-size: 2em;  
   }
   
   .login {
@@ -35,7 +45,7 @@ input {
   
   label {    
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 6vw;  
+    font-size: 2em;  
     color: green;
   }
   
@@ -54,7 +64,7 @@ input {
     border-left: 600rem solid rgb(13, 83, 72);
     border-right: 600rem solid rgb(13, 83, 72);
     color: white;
-    font-size: 8vw; 
+    font-size: 3em; 
     font-family: Arial, Helvetica, sans-serif;
   }
   
