@@ -9,21 +9,23 @@
     </head>
     <body>    
         <div class="rahmen">
-            <div class="header">
-                <h1>Bitte anmelden!</h1>
+            <div class="kopf">
+                <h1>N27 Bank</h1>
             </div>
-            <div class="nav"></div>
-            <div class="content">
+            <div class="navigationsleiste">
+                 Bitte anmelden
+            </div>
+            <div class="inhaltsbereich">
                 <form method="post">
                     <label for="fname">Benutzer-ID:</label><br>
                     <input type="number" name="IdKunde"><br>
                     <label for="lname">Kennwort:</label><br>
                     <input type="password" name="Kennwort"><br><br>        
-                    <button formaction="/login">Einloggen</button>
+                    <button class="login" formaction="/login">Einloggen</button>
                 </form> 
                 <p class="meldung"><%= meldung %></p>
             </div>
-            <div class="footer">
+            <div class="fusszeile">
                 Footer
             </div>
         </div>
