@@ -1,6 +1,5 @@
-// Programme verarbeiten oft Objekte der realen Welt.
-// Objekte haben Eigenschaften.
-// In unserem Bankingprogramm interessieren uns Objekte,
+// Programme verarbeiten oft Objekte der realen Welt. Objekte haben 
+// Eigenschaften. In unserem Bankingprogramm interessieren uns Objekte,
 // wie z.B. Kunde, Konto, Filiale, Bankautomat, ...
 // Alle Kunden unserer Bank haben dieselben Eigenschaften, aber
 // unterschiedliche Eigenschaftswerte.
@@ -136,4 +135,4 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
 })
 
 // require('./Uebungen/ifUndElse.js')
-require('./Uebungen/klasseUndObjekt.js')
+// require('./Uebungen/klasseUndObjekt.js')
