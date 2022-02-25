@@ -16,7 +16,7 @@ class Kunde{
     }
 }
 
-// Von der Kunden-Klasse wird eine konkrte Instanz gebildet. 
+// Von der Kunden-Klasse wird eine konkrete Instanz gebildet. 
 
 let kunde = new Kunde()
 
@@ -42,20 +42,18 @@ const server = meineApp.listen(process.env.PORT || 3000, () => {
     console.log('Server lauscht auf Port %s', server.address().port)    
 })
 
-// Die Methode meineApp.get('/' ...) wird abgearbeitet, wenn
-// der Kunde die Indexseite (localhost:3000 bzw. 
-// n27.herokuapp.com) ansurft.
+// Die Methode meineApp.get('/' ...) wird abgearbeitet, sobald
+// der Kunde die Indexseite (localhost:3000 bzw. n27.herokuapp.com) ansurft.
 
 meineApp.get('/',(browserAnfrage, serverAntwort, next) => {              
     
     // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
-    // dann ist die Prüfung wahr und es wird die gerenderte Index-Seite an den Browser
-    // zurückgegeben. Anderenfalls wird die Login-Seite an den Browser gegeben.
+    // dann ist die Prüfung wahr und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet.
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
-
-        // Wenn der Kunde bereits angemeldet ist, soll die
-        // Index-Seite an den Browser gegeben werden.
+        
+        // Die Index-Seite wird an den Browser gegeben:
 
         serverAntwort.render('index.ejs',{})
     }else{
