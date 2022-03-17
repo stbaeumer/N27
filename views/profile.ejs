@@ -27,15 +27,18 @@
             <a href="/login"><i class="fa fa-sign-out fa-2x"></i></a>
         </div>
         <div class="inhaltsbereich">
-            <h2>Name</h2>
-            <p>N27 Bank AG</p>
-            <h2>Hauptsitz</h2>            
-            <p>Josefstraße 10</p>
-            <p>46325 Borken</p>
-            <p>Telefon: 02861 90990-0</p>
-            <p>Bankleitzahl: 27 000 000</p>
-            <h2>Geschäftsführung</h2>
-            <p>Stefan B.</p>
+            <form method="post">
+                <label for="fname">Vorname:</label><br>
+                <input type="text" name="Vorname" readonly value=<%= Vorname %>  ><br>
+                <label for="lname">Nachname:</label><br>
+                <input type="text" name="Nachname" value=<%= Nachname %> readonly><br>        
+                <label for="fname">Mail:</label><br>
+                <input type="email" name="Mail" value=<%= Mail %>  ><br>
+                <label for="fname">Rufnummer:</label><br>
+                <input type="tel" name="Rufnummer" value=<%= Rufnummer %>  ><br>
+                
+                <button class="login" formaction="/login">Änderung speichern</button>
+            </form>     
         </div>
         <div class="fusszeile">
             &copy; 2022 GW21A
