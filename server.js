@@ -143,8 +143,32 @@ meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {
         Vorname: kunde.Vorname,
         Nachname: kunde.Nachname,
         Mail: kunde.Mail,
-        Rufnummer: kunde.Rufnummer
+        Rufnummer: kunde.Rufnummer,
+        Kennwort: kunde.Kennwort
     })          
+})
+
+// Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
+// wird die meineApp.post('profile'...) abgearbeitet.
+
+meineApp.post('/profile',(browserAnfrage, serverAntwort, next) => {              
+    
+    // Der Wert der Eigenschaft von Mail im Browser wird
+    // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde
+
+    kunde.Mail = browserAnfrage.body.Mail
+    kunde.Kennwort = browserAnfrage.body.Kennwort
+    kunde.Rufnummer = browserAnfrage.body.Rufnummer
+    
+    console.log("Profil gespeichert.")
+    
+    serverAntwort.render('profile.ejs', {
+        Vorname: kunde.Vorname,
+        Nachname: kunde.Nachname,
+        Mail: kunde.Mail,
+        Rufnummer: kunde.Rufnummer,
+        Kennwort: kunde.Kennwort
+    })
 })
 
 

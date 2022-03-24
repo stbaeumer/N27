@@ -41,7 +41,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 4vh;
+  font-size: 2.5vh;
 }
   
 .login {
@@ -61,10 +61,9 @@ label {
   width: 80%;
   margin-bottom: 10px;
   margin-right: 10%;
-  margin-left: 10%;  
-      
+  margin-left: 10%;        
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.5em;  
+  font-size: 2.5vh;  
   color:black;
 }
 
