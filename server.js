@@ -63,7 +63,7 @@ meineApp.get('/',(browserAnfrage, serverAntwort, next) => {
         // Wenn der Kunde noch nicht eigeloggt ist, soll
         // die Loginseite an den Browser zurückgegeben werden.
         serverAntwort.render('login.ejs', {
-            meldung : ""
+            Meldung: ""
         })
     }                 
 })
