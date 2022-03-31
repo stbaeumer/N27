@@ -76,6 +76,16 @@ label {
   font-size: 2vh;  
   color: red;
 }
+
+.erfolgsmeldung {
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2vh;  
+  color: green;
+}
   
 .divii {
   border-radius: 5px;
