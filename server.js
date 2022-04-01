@@ -127,14 +127,27 @@ meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {
     })          
 })
 
-// Die meineApp.post('login') wird ausgeführt, sobald der Button
-// auf dem Login-Formular gedrückt wird.
-
+// Wenn die about-Seite angesurft wird, wird die about-Seite
+// zum Browser zurückgegeben
 
 meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
 
-    serverAntwort.render('about.ejs', {
-    })          
+    // Wenn der Anmelde-Cookie gesetzt ist, wird der Nutzer zur
+    // About-Seite gelenkt.
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        
+        // Die About-Seite wird an den Browser gegeben:
+
+        serverAntwort.render('about.ejs',{})
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }         
 })
 
 meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {              
