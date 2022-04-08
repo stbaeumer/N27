@@ -31,6 +31,33 @@ kunde.Mail = "mueller@web.de"
 kunde.Kennwort = "123"
 kunde.Rufnummer = "+49123/4567890"
 
+class Kundenberater{
+    constructor(){
+        this.IdKundenberater
+        this.Nachname
+        this.Vorname
+        this.Position
+        this.Mail
+        this.Rufnummer
+        this.Begruessung
+    }
+}
+
+// Es wird ein Kundenberater-Objekt instanziiert
+
+let kundenberater = new Kundenberater()
+
+// Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen.
+
+kundenberater.IdKundenberater = 1
+kundenberater.Nachname = "Zimmermann"
+kundenberater.Vorname = "Franz"
+kundenberater.Mail = "zimmermann@n27.com"
+kundenberater.Rufnummer = "+49123/4567890"
+kundenberater.Begruessung = "Hallo, ich bin's, Dein Kundenberater!"
+kundenberater.Position = "Master of desaster"
+
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const meineApp = express()
@@ -127,8 +154,8 @@ meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {
     })          
 })
 
-// Wenn die about-Seite angesurft wird, wird die about-Seite
-// zum Browser zurückgegeben
+// Wenn die about-Seite angesurft wird, wird die Funktion
+// meineApp.get('/about'... abgearbeitet.
 
 meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
 
@@ -152,15 +179,41 @@ meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {              
 
-    serverAntwort.render('profile.ejs', {
-        Vorname: kunde.Vorname,
-        Nachname: kunde.Nachname,
-        Mail: kunde.Mail,
-        Rufnummer: kunde.Rufnummer,
-        Kennwort: kunde.Kennwort,
-        Erfolgsmeldung: ""
-    })          
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+        serverAntwort.render('profile.ejs', {
+            Vorname: kunde.Vorname,
+            Nachname: kunde.Nachname,
+            Mail: kunde.Mail,
+            Rufnummer: kunde.Rufnummer,
+            Kennwort: kunde.Kennwort,
+            Erfolgsmeldung: ""
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }          
 })
+
+meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('support.ejs', {
+            Vorname: kundenberater.Vorname,
+            Nachname: kundenberater.Nachname,
+            Mail: kundenberater.Mail,
+            Rufnummer: kundenberater.Rufnummer,
+            Begruessung: kundenberater.Begruessung,
+            Position: kundenberater.Position
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
 
 // Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
 // wird die meineApp.post('profile'...) abgearbeitet.
