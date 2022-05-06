@@ -21,6 +21,7 @@
 
 .inhaltsbereich{
   min-height: 470px;
+  color: #4CAF50;
 }
 
 .fusszeile{
@@ -112,7 +113,12 @@ h2 {
 a {  
   color: white;  
   text-decoration: none;
-  }
+}
+
+.schaltflaeche {  
+  color: blue;  
+  text-decoration: none;
+}
   
 p {
   color: red;

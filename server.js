@@ -58,6 +58,25 @@ kundenberater.Begruessung = "Hallo, ich bin's, Dein Kundenberater!"
 kundenberater.Position = "Master of desaster"
 
 
+class Konto{
+    constructor(){
+        this.Kontostand
+        this.IBAN
+        this.Kontoart
+        this.Pin
+    }
+}
+
+// Instanzierung eines Objekts namens konto vom Typ Konto
+
+let konto = new Konto()
+
+// Initialisierung
+
+konto.IBAN = "DE1234567890123456"
+konto.Kontostand = 1000000
+konto.Kontoart = "Giro"
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const meineApp = express()
@@ -274,6 +293,27 @@ meineApp.post('/profile',(browserAnfrage, serverAntwort, next) => {
     })
 })
 
+meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {              
+    
+    // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+    // dann ist die Prüfung wahr und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet.
 
-// require('./Uebungen/ifUndElse.js')
-// require('./Uebungen/klasseUndObjekt.js')
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        
+        // Die Index-Seite wird an den Browser gegeben:
+
+        serverAntwort.render('kontostandAnzeigen.ejs',{})
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }                 
+})
+
+
+require('./Uebungen/ifUndElse.js')
+require('./Uebungen/klasseUndObjekt.js')

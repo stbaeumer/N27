@@ -19,6 +19,7 @@ if(a1 == b1){
     console.log("a1 und b1 sind nicht gleich.")
 }
 
+
 console.log("Übung 2 - Prüfung auf Wert- und Typ-Gleichheit:")
 
 let a2 = "1" // Die Variable a2 wird mit dem Text "1" initialisiert
@@ -79,7 +80,7 @@ if (punkteBayern < punkteDortmund){
     console.log("Bayern ist Meister")
 }
 
-console.log("Übung 6 - Prüfung des MwSt-Satzes")
+console.log("Übung 7 - Prüfung des MwSt-Satzes")
 
 let lebensmittel = true
 
@@ -92,13 +93,13 @@ if(lebensmittel){
 // Erkenntnisgewinn: Wenn der Ausdruck (hier: lebensmittel) true oder false ist,
 // ist kein Vergleichsoperator (== oder ===) notwendig.
 
-console.log("Übung 7 - Die Prüfung ist immer true")
+console.log("Übung 8 - Die Prüfung ist immer true")
 
 if(true){
     console.log("Diese Prüfung ist immer wahr.")
 }
 
-console.log("Übung 8 - Die Prüfung von Zahlen")
+console.log("Übung 9 - Die Prüfung von Zahlen")
 
 let a8 = 1
 let b8 = 2
@@ -114,7 +115,7 @@ if(a8 - b8){
 // Eine positive Zahl ist true
 // Eine negative Zahl ist true
 
-console.log("Übung 9 - Saldo")
+console.log("Übung 10 - Saldo")
 let einzahlung = 1000
 let auszahlung = 1000 
 
@@ -123,3 +124,6 @@ if(einzahlung-auszahlung){
 }else{
     console.log("Der Saldo ist null")
 }
+
+console.log("KLAUSUR")
+

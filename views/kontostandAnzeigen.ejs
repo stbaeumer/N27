@@ -7,12 +7,12 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>N27</title>
+    <title>N27 - Mein Profil</title>
 </head>
 <body>
     <div class="rahmen">
         <div class="kopf">
-            <h1>Willkommen bei der N27</h1>            
+            <h1>N27 - Mein Profil</h1>
         </div>
         <div class="navigationsleiste">            
             <a href="/">
@@ -32,12 +32,20 @@
             </a>
         </div>
         <div class="inhaltsbereich">
-            <a class="schaltflaeche" href="/kontostandAnzeigen">Kontostand anzeigen</a>
-        
-            <form>
-                <button formaction="/kontostandAnzeigen">Kontostand anzeigen</button>
-            </form>
-            
+            <form method="post">
+                <label>Vorname:</label><br>
+                <input type="text" name="Vorname" readonly value=<%= Vorname %>  ><br>
+                <label>Nachname:</label><br>
+                <input type="text" name="Nachname" value=<%= Nachname %> readonly><br>        
+                <label>Mail:</label><br>
+                <input type="email" name="Mail" value=<%= Mail %>  ><br>
+                <label>Kennwort:</label><br>
+                <input type="password" name="Kennwort" value=<%= Kennwort %>  ><br>
+                <label>Rufnummer:</label><br>
+                <input type="tel" name="Rufnummer" value=<%= Rufnummer %>  ><br>
+                <button class="login" formaction="/profile">Änderung speichern</button>
+            </form>   
+            <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
         </div>
         <div class="fusszeile">
             &copy; 2022 GW21A
