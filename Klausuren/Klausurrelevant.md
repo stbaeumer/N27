@@ -1,6 +1,11 @@
 Klausur am 13.5.
 ================
 
+Löschen Sie den Inhalt der Datei 
+
+
+Ihr Auftraggeber  
+
 * Issue im Projekt nach Vorgabe anlegen
 * Issue nach "In progress" verschieben
 
@@ -20,3 +25,5 @@ Zu Styles:
 
 * Am Ende muss der Quelltext nach Github gepusht werden.
 * Jeder muss am Ende per mail den Link zum Quelltext und zum project schicken.
+
+

@@ -233,6 +233,19 @@ meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
+meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('kreditBerechnen.ejs', {
+            
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
 
 // Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
 // wird die meineApp.post('profile'...) abgearbeitet.
@@ -315,5 +328,6 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 })
 
 
-require('./Uebungen/ifUndElse.js')
-require('./Uebungen/klasseUndObjekt.js')
+//require('./Uebungen/ifUndElse.js')
+//require('./Uebungen/klasseUndObjekt.js')
+require('./Uebungen/klausur.js')
