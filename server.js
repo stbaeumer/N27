@@ -1,3 +1,18 @@
+class Kredit{
+    constructor(){
+        this.Zinssatz
+        this.Laufzeit
+        this.Betrag
+    }
+
+    // Eine Funktion berechnet etwas. Im Namen der Funktion steht also immer ein Verb.
+
+    berechneGesamtkostenKreditNachEinemJahr(){
+        return this.Betrag * this.Zinssatz / 100 + this.Betrag
+    }
+}
+
+
 // Programme verarbeiten oft Objekte der realen Welt. Objekte haben 
 // Eigenschaften. In unserem Bankingprogramm interessieren uns Objekte,
 // wie z.B. Kunde, Konto, Filiale, Bankautomat, ...
@@ -330,4 +345,4 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
 //require('./Uebungen/ifUndElse.js')
 //require('./Uebungen/klasseUndObjekt.js')
-require('./Uebungen/klausur.js')
+//require('./Uebungen/klausur.js')

@@ -7,7 +7,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>N27 - Mein Profil</title>
+    <title>N27 - Kredit berechnen</title>
 </head>
 <body>
     <div class="rahmen">
@@ -32,7 +32,20 @@
             </a>
         </div>
         <div class="inhaltsbereich">
-            Hier soll der Kunde einen Kredit berechnen können.
+            
+            <form method="post">
+                <label>Gewünschter Kreditbetrag:</label><br>
+                <input type="number" name="Betrag" value=<%= Betrag %>  ><br>
+                <label>Gewünschte Laufzeit:</label><br>
+                <input type="number" name="Laufzeit" value=<%= Laufzeit %> readonly><br>        
+                <label>Gewünschter Zinssatz:</label><br>
+                <input type="number" name="Zinssatz" value=<%= Zinssatz %>  ><br>
+                
+                <button class="login" formaction="/kreditBerechnen">Kredit berechnen</button>
+            </form>   
+            <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
+
+
         </div>
         <div class="fusszeile">
             &copy; 2022 GW21A
