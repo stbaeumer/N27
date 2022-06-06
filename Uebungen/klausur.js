@@ -9,7 +9,11 @@ let prozentpunkteCDU = 53
 // Wenn die Werte sich ändern, muss ihr Antwortsatz sich automatisch anpassen.
 // Hier Ihre Lösung:
 
-
+if(prozentpunkteCDU > prozentpunkteSPD){
+    console.log("Die CDU hat die Wahl gewonnen.")
+}else{
+    console.log("Die SPD hat die Wahl gewonnen.")
+}
 
 
 
@@ -19,34 +23,65 @@ console.log("Aufgabe 2")
 // Arbeiten Sie mit Variablen, die mit den genannten Werten initialisiert werden.
 // Geben Sie Ihre Lösung im Terminal aus: 
 
+let einnahmen = 1000000
+let ausgaben = 11900000
 
+if(einnahmen > ausgaben){
+    console.log("Gewinn")
+}else{
+    console.log("Verlust")
+}
 
+if(einnahmen-ausgaben){
+    console.log("Das Unternehmen hat Gewinn gemacht.")
+}else{
+    console.log("Das Unternehmen hat Verlust gemacht.")
+}
 
 console.log("Aufgabe 3")
 // In einem Handytest sollen Handys miteinander verglichen werden.
 // a) Erstellen Sie die Klassendefinition mit mindestens 4 relevanten Eigenschaften:
 
-
+class Handy{
+    constructor(){
+        this.Speicher
+        this.Displaydiagonale
+        this.Betriebssystem
+        this.Akkulaufzeit
+    }
+}
 
 
 
 
 // b) Instanzieren Sie zwei Objekte ("Samsung" und "Apple") der von Ihnen erstellten Klasse:
 
-
+let samsung = new Handy()
+let apple = new Handy()
 
 
 
 // c) Initialisieren Sie beide Objekte mit geeigneten Eigenschaftswerten:
 
+samsung.Akkulaufzeit = 100
+samsung.Displaydiagonale = 6
+samsung.Betriebssystem = "Android"
+samsung.Speicher = 128
 
-
+apple.Akkulaufzeit = 100
+apple.Displaydiagonale = 6
+apple.Betriebssystem = "Apfel"
+apple.Speicher = 64
 
 
 // d) Vergleichen Sie mit if/else eine der relevanten Eigenschaften und geben Sie
 //    im Terminal aus, ob Samsung oder Apple besser ist im Hinblick auf diese Eigenschaft:
 
-
+if(samsung.Speicher > apple.Speicher){
+    console.log("Speicher: Samsung ist besser")
+}else{
+    console.log("Speicher: Apple ist besser")
+}
 
 
 
