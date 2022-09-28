@@ -7,12 +7,12 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>N27 - Mein Profil</title>
+    <title>N27 - Kontostand anzeigen</title>
 </head>
 <body>
     <div class="rahmen">
         <div class="kopf">
-            <h1>N27 - Mein Profil</h1>
+            <h1>N27 - Kontostand anzeigen</h1>
         </div>
         <div class="navigationsleiste">            
             <a href="/">
@@ -33,17 +33,12 @@
         </div>
         <div class="inhaltsbereich">
             <form method="post">
-                <label>Vorname:</label><br>
-                <input type="text" name="Vorname" readonly value=<%= Vorname %>  ><br>
-                <label>Nachname:</label><br>
-                <input type="text" name="Nachname" value=<%= Nachname %> readonly><br>        
-                <label>Mail:</label><br>
-                <input type="email" name="Mail" value=<%= Mail %>  ><br>
-                <label>Kennwort:</label><br>
-                <input type="password" name="Kennwort" value=<%= Kennwort %>  ><br>
-                <label>Rufnummer:</label><br>
-                <input type="tel" name="Rufnummer" value=<%= Rufnummer %>  ><br>
-                <button class="login" formaction="/profile">Änderung speichern</button>
+                <label>Kontoart:</label><br>
+                <input type="text" name="Kontoart" readonly value=<%= Kontoart %>  ><br>
+                <label>IBAN:</label><br>
+                <input type="text" name="IBAN" value=<%= IBAN %> readonly><br>        
+                <label>Kontostand:</label><br>
+                <input type="number" name="Kontostand" readonly value=<%= Kontostand %>  ><br>
             </form>   
             <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
         </div>

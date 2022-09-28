@@ -72,9 +72,17 @@ kundenberater.Rufnummer = "+49123/4567890"
 kundenberater.Begruessung = "Hallo, ich bin's, Dein Kundenberater!"
 kundenberater.Position = "Master of desaster"
 
+// Die Klasse Konto ist der Bauplan für alle konto-Objekte.
+// In der Klasse werden alle relevanten Eigenschaften definiert.
+// Die konto-Objekte, die aus dieser Klasse erzeugt werden, haben die selben
+// Eigenschaften, aber unterschiedliche Eigenschaftswerte.
 
 class Konto{
     constructor(){
+
+        // Die relevanten Eigenschaften werden im Konstruktor aufgelistet.
+        // Eigenschaften werden immer großgeschrieben        
+
         this.Kontostand
         this.IBAN
         this.Kontoart
@@ -83,10 +91,19 @@ class Konto{
 }
 
 // Instanzierung eines Objekts namens konto vom Typ Konto
+// "let konto" bedeutet, dass ein Objekt namens konto exisitieren soll. Man sagt,
+// das konto wird deklariert.
+
+// "= new Konto()" nennt man die instanziierung. Bei der Instanziierung wird Festplatten-
+// speicher reserviert, um bei der anschließenden Initialisierung konkrete Eigenschafts-
+// werte für das Objekt zu speichern.
 
 let konto = new Konto()
 
-// Initialisierung
+// Bei der Initialisierung werden konkrete Eigenschaftswerte in die reservierten Speicher-
+// zellen geschrieben.
+
+// Die Zuweisung von Eigenschaftswerten geschieht immer von rechts nach links.
 
 konto.IBAN = "DE1234567890123456"
 konto.Kontostand = 1000000
@@ -321,21 +338,32 @@ meineApp.post('/profile',(browserAnfrage, serverAntwort, next) => {
     })
 })
 
+// Sobald der Button "Kontostand anzeigen" auf der index-Seite gedrückt wird, 
+// wird die meineApp.get('/kontostandAnzeigen'-Funktion abgearbeitet.
+
 meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {              
     
     // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
-    // dann ist die Prüfung wahr und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // dann ist die Prüfung WAHR und die Anweisungen im Rumpf der if-Kontrollstruktur 
     // werden abgearbeitet.
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
+
+
         // Die Index-Seite wird an den Browser gegeben:
 
-        serverAntwort.render('kontostandAnzeigen.ejs',{})
+        serverAntwort.render('kontostandAnzeigen.ejs',{
+            Kontostand: konto.Kontostand,
+            IBAN: konto.IBAN,
+            Kontoart: konto.Kontoart,
+            Erfolgsmeldung: ""
+        })
     }else{
 
         // Wenn der Kunde noch nicht eigeloggt ist, soll
         // die Loginseite an den Browser zurückgegeben werden.
+
         serverAntwort.render('login.ejs', {
             Meldung: ""
         })
