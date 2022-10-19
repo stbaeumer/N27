@@ -10,7 +10,7 @@ console.log("Übung 1 - Prüfung auf Wert-Gleichheit:")
 
 // JAVASCRIPT:
 
-let a1 = 3 // Eine Variable (z.B. a1 oder zahl1) wird mit dem Wert 1 initialisiert
+let a1 = 4 // Eine Variable (z.B. a1 oder zahl1) wird mit dem Wert 1 initialisiert
 let b1 = 4 // Eine Variable (z.B. b1 oder zahl2) wird mit dem Wert 2 initialisiert
 
 if(a1 == b1){
