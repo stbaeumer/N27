@@ -51,8 +51,6 @@ console.log("******** K L A U S U R 26.10.2022 ********")
 //
 //
 //
-// Aufgabe 4)
-// Grenzen Sie Deklaration, Instanziierung und Initialisierung voneinander ab!  
 // 
 //
 //
@@ -80,6 +78,8 @@ console.log("******** K L A U S U R 26.10.2022 ********")
 //
 //
 //
+
+
 
 
 
