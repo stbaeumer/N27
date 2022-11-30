@@ -156,6 +156,8 @@ let kunde = new Kunde()
 
 // Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen.
 
+
+
 kunde.IdKunde = 150000
 kunde.Nachname = "Müller"
 kunde.Vorname = "Pit"
