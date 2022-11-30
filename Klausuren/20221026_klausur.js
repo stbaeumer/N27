@@ -115,5 +115,32 @@ console.log("******** K L A U S U R 26.10.2022 ********")
 //     "Git hat das viel bessere Zeugnis" bzw.
 //     "Pit hat das viel bessere Zeugnis"
 
+class Zeugnis{
+    constructor(){
+        this.Mathe
+        this.Deutsch
+        this.Englisch
+    }
+}
 
+let pit = new Zeugnis()
+pit.Mathe = 15
+pit.Deutsch = 10
+pit.Englisch = 5
+
+let git = new Zeugnis()
+git.Mathe = 10
+git.Deutsch = 8
+git.Englisch = 15
+
+if((pit.Mathe + pit.Deutsch + pit. Englisch) / 3 > (git.Mathe +  git.Deutsch + git.Englisch) / 3) {
+   console.log("Pit hat das bessere Zeugnis")  
+}else{
+
+    if((pit.Mathe + pit.Deutsch + pit. Englisch) / 3 === (git.Mathe +  git.Deutsch + git.Englisch) / 3) {
+        console.log("beide gleich")  
+     }else{
+        console.log("Git hat das bessere Zeugnis")  
+     }
+}
 
