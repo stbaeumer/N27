@@ -36,10 +36,13 @@ dbVerbindung.connect(function(fehler){
 
   // Die Tabelle namens kunde wird erstellt.
   // Die Spalten heißen: idKunde, vorname, nachname, ort, kennwort, mail
-  // VARCHAR(45) legt den Datentyp der Spalte auf "Text" mit der Länge max. 45 Zeichen fest.
-  // INT(11) begrenzt die Eingabe auf 11 Ziffern.
-  // idKunde ist Primary Key. Das beudetet, dass die idKunde den Datensatz eindeutig
-  // kennzeichnet.
+  // VARCHAR(45)    : legt den Datentyp der Spalte auf "Text" mit der Länge max. 45 Zeichen fest.
+  // INT(11)        : begrenzt die Eingabe auf 11 Ziffern. Es sind nur Ganzzahlen möglich.
+  // Float / Double : sind Gleitkommazahlen
+  // Smallint       : Zahlen von 0 - 65535
+  // Date / Datetime: steht für ein Datum bzw. Uhrzeit 
+  // idKunde ist Primary Key. Das bedeutet, dass die idKunde den Datensatz eindeutig
+  // kennzeichnet. Das wiederum bedeutet, dass kein zweiter Kunde mit derselben idKunde angelegt werden kann.
 
 dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
     
@@ -60,13 +63,39 @@ dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nac
         }
     }else{
             console.log("Tabelle Kunde erfolgreich angelegt.")
-        }
+         }
     })
 });
 
+dbVerbindung.connect(function(fehler){
+  
+  dbVerbindung.query('CREATE TABLE kredit(idKunde INT(11), datum DATETIME, zinssatz FLOAT, laufzeit INT(11), betrag SMALLINT, PRIMARY KEY(idKunde,datum));', function (fehler) {
+      
+      // Falls ein Problem bei der Query aufkommt, ...
+      
+      if (fehler) {
+      
+          // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+  
+          if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+  
+              //... dann wird eine Fehlermdldung geloggt. 
+  
+              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+          
+          }else{
+              console.log("Fehler: " + fehler )
+          }
+      }else{
+              console.log("Tabelle kredit erfolgreich angelegt.")
+       }
+    })
+});
 
-dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
-    
+// Ein Kunde soll neu in der Datenbank angelegt werden.
+
+dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
+      
     // Falls ein Problem bei der Query aufkommt, ...
     
     if (fehler) {
@@ -77,17 +106,15 @@ dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nac
 
             //... dann wird eine Fehlermdldung geloggt. 
 
-            console.log("Tabelle kunde existiert bereits und wird nicht angelegt.")
+            console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
         
         }else{
             console.log("Fehler: " + fehler )
         }
     }else{
-            console.log("Tabelle Kunde erfolgreich angelegt.")
-        }
-    });
-
-
+            console.log("Tabelle kredit erfolgreich angelegt.")
+     }
+});
 
 class Kredit{
     constructor(){
