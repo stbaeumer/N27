@@ -491,4 +491,4 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
 //require('./Uebungen/ifUndElse.js')
 //require('./Uebungen/klasseUndObjekt.js')
-//require('./Klausuren/20221026_klausur.js')
+require('./Klausuren/20221026_klausur.js')
