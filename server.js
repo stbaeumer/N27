@@ -1,4 +1,4 @@
-// Das installierte MYSQL-Modul wird mit requiere() eingebunden.
+// Das installierte MYSQL-Modul wird mit require() eingebunden.
 // Das MySQL-Modul stellt die Verbindung zwischen der App und der
 // MySQL-Datenbank her.
 // Eine Datenbank wird benötigt, wenn Daten auch nach der Laufzeit des
