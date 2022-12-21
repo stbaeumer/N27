@@ -389,7 +389,10 @@ meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         serverAntwort.render('kreditBerechnen.ejs', {
-            
+            Betrag: "",
+            Laufzeit: "",
+            Zinssatz:"",
+            Erfolgsmeldung:""
         })
     }else{
         serverAntwort.render('login.ejs',{
@@ -493,4 +496,5 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
 //require('./Uebungen/ifUndElse.js')
 //require('./Uebungen/klasseUndObjekt.js')
-require('./Klausuren/20221026_klausur.js')
+//require('./Klausuren/20221026_klausur.js')
+require('./Klausuren/20230111_klausur.js')
