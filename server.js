@@ -18,6 +18,7 @@ var dbVerbindung = mysql.createConnection({
   database: "dbn27"
 });
 
+
 dbVerbindung.connect(function(err) {
 
   // Wenn die Verbindung scheitert, wird ein Fehler geworfen.
