@@ -401,6 +401,22 @@ meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
+meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('kontoAnlegen.ejs', {
+            Betrag: "",
+            Laufzeit: "",
+            Zinssatz:"",
+            Erfolgsmeldung:""
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
 
 // Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
 // wird die meineApp.post('profile'...) abgearbeitet.
