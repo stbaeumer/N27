@@ -32,17 +32,17 @@
             </a>
         </div>
         <div class="inhaltsbereich">
-            
-            <label for="kontoArt">Kontoart wählen:</label><br>
-            <select id="kontoArt" name="kontoArt">
-                <option value="girokonto">Girokonto</option>
-                <option value="sparkonto">Sparkonto</option>                
-            </select>
-            
-            <button class="login" formaction="/kontoAnlegen">Neues Konto anlegen</button>
+            <form method="post">
+                <label for="kontoArt">Kontoart wählen:</label><br>
+                <select id="kontoArt" name="kontoArt">
+                    <option value="girokonto">Girokonto</option>
+                    <option value="sparkonto">Sparkonto</option>                
+                </select>            
+                <button class="login" formaction="/kontoAnlegen">Neues Konto anlegen</button>
+            </form>
         </div>
         <div class="fusszeile">
-            &copy; 2022 GW21A
+            &copy; 2023 GW21A
         </div>
     </div>
 </body>

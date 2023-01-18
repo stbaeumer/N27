@@ -402,9 +402,17 @@ meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
+// Die Funktion meineApp.get('/kontoAnlegen'...  wird abgearbeitet, sobald die Seite
+// kontoanlegen im Browser aufgerufen wird.
+
 meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
 
+    // Es wird geprüft, ob der User angemeldet ist, also ob der Cookie gesetzt ist
+
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+        // Wenn der User angemeldet ist, wird die kontoAnlegen-Seite gerendert...
+
         serverAntwort.render('kontoAnlegen.ejs', {
             Betrag: "",
             Laufzeit: "",
@@ -412,6 +420,9 @@ meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
             Erfolgsmeldung:""
         })
     }else{
+
+        // Wenn der User nicht angemeldet ist, wird er zur Login-Seite zurückgeworfen
+
         serverAntwort.render('login.ejs',{
             Meldung: ""
         })
@@ -510,8 +521,47 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
     }                 
 })
 
+// Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald ein Button auf der kontoAnlegen-Seite gedrückt wird.
+
+meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
+    
+    // Die im Browser eingegebene IdKunde und Kennwort werden zugewiesen
+    // an die Konstanten namens idKunde und kennwort.
+
+    const kontoArt = browserAnfrage.body.kontoArt
+       
+    console.log("Gewählte Kontart: " + kontoArt)
+    
+
+    // Die Identität des Kunden wird überprüft.
+    
+    if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){
+    
+        // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt.
+        // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt.
+        // Der Cookie wird signiert, also gegen Manpulationen geschützt.
+
+        serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
+        console.log("Der Cookie wurde erfolgreich gesetzt.")
+
+        // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
+        // UND ("&&") das Kennwort ebenfalls übereinstimmt,
+        // dann gibt der Server die gerenderte Index-Seite zurück.
+        
+        serverAntwort.render('index.ejs', {})
+    }else{
+
+        // Wenn entweder die eingegebene Id oder das Kennwort oder beides
+        // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
+        // gerenderte Login-Seite an den Browser zurückgegeben.
+
+        serverAntwort.render('login.ejs', {
+            Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
+        })
+    }
+})
 
 //require('./Uebungen/ifUndElse.js')
 //require('./Uebungen/klasseUndObjekt.js')
 //require('./Klausuren/20221026_klausur.js')
-require('./Klausuren/20230111_klausur.js')
+//require('./Klausuren/20230111_klausur.js')
