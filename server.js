@@ -1,3 +1,7 @@
+// Das IBAN-Modul wird benötigt, um eine gültige IBAN zu errechnen.
+
+var IBAN = require('iban');
+
 // Das installierte MYSQL-Modul wird mit require() eingebunden.
 // Das MySQL-Modul stellt die Verbindung zwischen der App und der
 // MySQL-Datenbank her.
@@ -532,33 +536,53 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
        
     console.log("Gewählte Kontart: " + kontoArt)
     
+    // Die IBAN wird automtisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig.
 
-    // Die Identität des Kunden wird überprüft.
+    let laenderkennung = "DE"
+    let bankleitzahl = 27000000
+
+    let min = 1111111111;
+    let max = 9999999999;
+    let zufaelligeKontonummer = Math.floor(Math.random() * (max - min + 1)) + min;
     
-    if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){
-    
-        // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt.
-        // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt.
-        // Der Cookie wird signiert, also gegen Manpulationen geschützt.
+    console.log(zufaelligeKontonummer)
 
-        serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
-        console.log("Der Cookie wurde erfolgreich gesetzt.")
+    // Die IBAN wird mit einer Node-Bibliothek errechnet.
 
-        // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
-        // UND ("&&") das Kennwort ebenfalls übereinstimmt,
-        // dann gibt der Server die gerenderte Index-Seite zurück.
-        
-        serverAntwort.render('index.ejs', {})
+    let iban = IBAN.fromBBAN(laenderkennung,bankleitzahl+ " " + zufaelligeKontonummer)
+
+    console.log("IBAN: " + iban)
+
+    if(IBAN.isValid(iban)){
+        console.log("Die IBAN ist gültig.")
     }else{
-
-        // Wenn entweder die eingegebene Id oder das Kennwort oder beides
-        // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
-        // gerenderte Login-Seite an den Browser zurückgegeben.
-
-        serverAntwort.render('login.ejs', {
-            Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
-        })
+        console.log("Die IBAN ist ungültig.")
     }
+
+    // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle konto anlgelegt werden.
+
+    dbVerbindung.query('INSERT INTO konto(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
+      
+        // Falls ein Problem bei der Query aufkommt, ...
+        
+        if (fehler) {
+        
+            // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+    
+            if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+    
+                //... dann wird eine Fehlermdldung geloggt. 
+    
+                console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+            
+            }else{
+                console.log("Fehler: " + fehler )
+            }
+        }else{
+                console.log("Tabelle kredit erfolgreich angelegt.")
+         }
+    });
+
 })
 
 //require('./Uebungen/ifUndElse.js')
