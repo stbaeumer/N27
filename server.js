@@ -525,6 +525,7 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
     }                 
 })
 
+
 // Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald ein Button auf der kontoAnlegen-Seite gedrückt wird.
 
 meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
