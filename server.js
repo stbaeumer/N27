@@ -97,6 +97,34 @@ dbVerbindung.connect(function(fehler){
     })
 });
 
+// Eine Tabelle namens Konto mit den Eigenschaften iban, idKunde, anfangssaldo, kontoart, timestamp wird neu angelegt,
+// falls sie noch nicht existiert
+
+dbVerbindung.connect(function(fehler){
+  
+  dbVerbindung.query('CREATE TABLE konto(iban VARCHAR(45), idKunde INT(11), anfangssaldo FLOAT, kontoart VARCHAR(45), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
+      
+      // Falls ein Problem bei der Query aufkommt, ...
+      
+      if (fehler) {
+      
+          // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+  
+          if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+  
+              //... dann wird eine Fehlermdldung geloggt. 
+  
+              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+          
+          }else{
+              console.log("Fehler: " + fehler )
+          }
+      }else{
+              console.log("Tabelle kredit erfolgreich angelegt.")
+       }
+    })
+});
+
 // Ein Kunde soll neu in der Datenbank angelegt werden.
 
 dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
@@ -574,7 +602,7 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
 
     // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle konto angelegt werden.
 
-    dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 150000, 1, NOW()) ;', function (fehler) {
+    dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 150000, 1, "' + kontoArt + '", NOW()) ;', function (fehler) {
       
         // Falls ein Problem bei der Query aufkommt, ...
         
