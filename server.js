@@ -526,33 +526,45 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 })
 
 
-// Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald ein Button auf der kontoAnlegen-Seite gedrückt wird.
+// Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald der Button 
+// auf der kontoAnlegen-Seite gedrückt wird und das Formular abgesendet ('gepostet') wird.
 
 meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
     
-    // Die im Browser eingegebene IdKunde und Kennwort werden zugewiesen
-    // an die Konstanten namens idKunde und kennwort.
+    // Die im Formular eingegebene Kontoart wird an die Konstante namens kontoArt zugewiesen
 
     const kontoArt = browserAnfrage.body.kontoArt
-       
+    
     console.log("Gewählte Kontart: " + kontoArt)
     
-    // Die IBAN wird automtisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig.
+    // Die IBAN wird automtisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig (Primary Key).
 
     let laenderkennung = "DE"
     let bankleitzahl = 27000000
 
+    // Die Zahl 1111111111 wird zugewiesen an eine Variable namens min
+
     let min = 1111111111;
+
+    // Die Zahl 999999999 wird an eine Variable namens max zugwiesen
+
     let max = 9999999999;
+
+    // Eine Zufallszahl zwischen min und max wird von der Math-Bibliothek mit der Methode random()
+    // erzeugt und an die Variable zufaelligeKontonummer zugewiesen.
+
     let zufaelligeKontonummer = Math.floor(Math.random() * (max - min + 1)) + min;
     
     console.log(zufaelligeKontonummer)
 
-    // Die IBAN wird mit einer Node-Bibliothek errechnet.
+    // Die IBAN wird mit einer Node-Bibliothek namens IBAN errechnet. Die Parameter der Funktion zur Berechnung der
+    // Iban sind: Länderkennung, bankleitzahl und Kontonummer.
 
     let iban = IBAN.fromBBAN(laenderkennung,bankleitzahl+ " " + zufaelligeKontonummer)
 
     console.log("IBAN: " + iban)
+
+    // Wenn die Iban korrekt ist, dann wird in der Console ausgegeben: "Iban gültig."
 
     if(IBAN.isValid(iban)){
         console.log("Die IBAN ist gültig.")
@@ -560,9 +572,9 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         console.log("Die IBAN ist ungültig.")
     }
 
-    // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle konto anlgelegt werden.
+    // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle konto angelegt werden.
 
-    dbVerbindung.query('INSERT INTO konto(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
+    dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 150000, 1, NOW()) ;', function (fehler) {
       
         // Falls ein Problem bei der Query aufkommt, ...
         
@@ -581,9 +593,8 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
             }
         }else{
                 console.log("Tabelle kredit erfolgreich angelegt.")
-         }
-    });
-
+        }
+    })
 })
 
 //require('./Uebungen/ifUndElse.js')
