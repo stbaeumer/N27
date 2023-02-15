@@ -567,7 +567,12 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
     
     // Die IBAN wird automtisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig (Primary Key).
 
+    // Ein String mit dem Wert "DE" wird zugewiesen an eine Variable namens laenderkennng
+
     let laenderkennung = "DE"
+    
+    // Die Zahl 27000000 wird zugewiesen an eine Variable namens bankleitzahl
+    
     let bankleitzahl = 27000000
 
     // Die Zahl 1111111111 wird zugewiesen an eine Variable namens min
@@ -583,12 +588,12 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
 
     let zufaelligeKontonummer = Math.floor(Math.random() * (max - min + 1)) + min;
     
-    console.log(zufaelligeKontonummer)
+    console.log("Die zufällig generierte Kontonummer lautet " + zufaelligeKontonummer)
 
     // Die IBAN wird mit einer Node-Bibliothek namens IBAN errechnet. Die Parameter der Funktion zur Berechnung der
     // Iban sind: Länderkennung, bankleitzahl und Kontonummer.
 
-    let iban = IBAN.fromBBAN(laenderkennung,bankleitzahl+ " " + zufaelligeKontonummer)
+    let iban = IBAN.fromBBAN(laenderkennung, bankleitzahl + " " + zufaelligeKontonummer)
 
     console.log("IBAN: " + iban)
 
@@ -608,20 +613,18 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         
         if (fehler) {
         
-            // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
-    
-            if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
-    
-                //... dann wird eine Fehlermdldung geloggt. 
-    
-                console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+            console.log("Fehler: " + fehler )
             
-            }else{
-                console.log("Fehler: " + fehler )
-            }
         }else{
-                console.log("Tabelle kredit erfolgreich angelegt.")
+            console.log("Neues Konto in der Tabelle konto angelegt.")
         }
+    })
+
+    serverAntwort.render('kontoAnlegen.ejs', {
+        Betrag: "",
+        Laufzeit: "",
+        Zinssatz:"",
+        Erfolgsmeldung:"Das Konto wurde erfolgreich angelegt"
     })
 })
 
