@@ -446,9 +446,6 @@ meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         // Wenn der User angemeldet ist, wird die kontoAnlegen-Seite gerendert...
 
         serverAntwort.render('kontoAnlegen.ejs', {
-            Betrag: "",
-            Laufzeit: "",
-            Zinssatz:"",
             Erfolgsmeldung:""
         })
     }else{
@@ -621,10 +618,7 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
     })
 
     serverAntwort.render('kontoAnlegen.ejs', {
-        Betrag: "",
-        Laufzeit: "",
-        Zinssatz:"",
-        Erfolgsmeldung:"Das Konto wurde erfolgreich angelegt"
+        Erfolgsmeldung: "Das " + kontoArt + " mit der IBAN " + iban + " wurde erfolgreich angelegt."
     })
 })
 
