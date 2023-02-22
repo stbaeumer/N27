@@ -16,16 +16,29 @@ var mysql = require('mysql');
 // Adresse und die Anmeldedaten der Datenbank angegeben.
 
 var dbVerbindung = mysql.createConnection({
-  host: "10.40.38.110",
-  user: "placematman",
-  password: "BKB123456!",
-  database: "dbn27"
+  
+    // Der host ist der Server auf dem die Datenbank installiert ist.
+    // Der Host kann über seinen Namen oder die IP-Adresse adressiert werden.
+    // Wenn der Host nicht reagiert, kann mit "ping 10.40.38.110" geprüft werden,
+    // ob der Rechner eingeschaltet ist.
+    // Wenn der Rechner auf ping antwortet, aber kein connect aufgebaut werden kann,
+    // dann muss geprüft werden, ob der Datenbank-Dienst auf dem Rechner läuft. Dazu
+    // melden wir uns auf dem Datenbankserver an und starten die MySQL-Workbench.
+
+    host: "10.40.38.110",
+    user: "placematman",
+    password: "BKB123456!",
+    database: "dbn27"
 });
 
+// Die dbVerbindung ruft die connect-Methode auf, um eine Verbindung mit der
+// Datenbank herzustellen.
 
 dbVerbindung.connect(function(err) {
 
   // Wenn die Verbindung scheitert, wird ein Fehler geworfen.
+  // Wenn die Datenbank nicht innerhalb einer definierten Zeit auf
+  // den connect-Versuch antwortet, kommt ein TIMEOUT-Fehler.
 
   if (err) throw err;
   
@@ -446,7 +459,7 @@ meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         // Wenn der User angemeldet ist, wird die kontoAnlegen-Seite gerendert...
 
         serverAntwort.render('kontoAnlegen.ejs', {
-            Erfolgsmeldung:""
+            Erfolgsmeldung: ""
         })
     }else{
 
@@ -556,6 +569,8 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
     
+    let erfolgsmeldung = ""
+
     // Die im Formular eingegebene Kontoart wird an die Konstante namens kontoArt zugewiesen
 
     const kontoArt = browserAnfrage.body.kontoArt
@@ -610,15 +625,21 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         
         if (fehler) {
         
-            console.log("Fehler: " + fehler )
+            erfolgsmeldung = "Fehler: " + fehler
             
         }else{
-            console.log("Neues Konto in der Tabelle konto angelegt.")
+            erfolgsmeldung = "Das " + kontoArt + " mit der IBAN " + iban + " wurde erfolgreich angelegt."
         }
-    })
+    
+        // Nach dem Erstellen des Kontos wird die Serverantwort gerendet an den Browser zurückgegeben,.
 
-    serverAntwort.render('kontoAnlegen.ejs', {
-        Erfolgsmeldung: "Das " + kontoArt + " mit der IBAN " + iban + " wurde erfolgreich angelegt."
+        serverAntwort.render('kontoAnlegen.ejs', {
+
+            // Damit die Meldung auf der ejs-Seite angezeigt wird, muss es auf der ejs-Seite eine Variable
+            // namens <%= Erfolgsmeldung %> geben.
+
+            Erfolgsmeldung: erfolgsmeldung
+        })
     })
 })
 
