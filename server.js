@@ -338,7 +338,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
         console.log("Der Cookie wurde erfolgreich gesetzt.")
 
         // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen
-
+        
         console.log("Jetzt werden die Konten eingelesen")
 
         // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
@@ -546,13 +546,27 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
-        // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+        // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert:
+        // Der Abfragebefehl beginnt mit SELECT.
+        // Anschließend wird die interessierende Spalte angegeben. 
+        // Mehrere interessierende Spalten werden mit Komma getrennt angegeben.
+        // Wenn alle Spalten ausgewählt werden sollen, kann vereinfachend * angegeben werden.
+        //   Beispiele: 'SELECT iban, anfangssaldo FROM ...' oder 'SELECT * FROM ...'
+        // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
+        // Mit WHERE wird der Result zeilenweise aus der Tabelle gefiltert
 
-        serverAntwort.render('kontostandAnzeigen.ejs',{
-            Kontostand: konto.Kontostand,
-            IBAN: konto.IBAN,
-            Kontoart: konto.Kontoart,
-            Erfolgsmeldung: ""
+        dbVerbindung.query('SELECT iban FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+            console.log(result)
+
+            // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+            serverAntwort.render('kontostandAnzeigen.ejs',{
+                MeineIbans: result,
+                Kontostand: konto.Kontostand,
+                IBAN: konto.IBAN,
+                Kontoart: konto.Kontoart,
+                Erfolgsmeldung: ""
+            })
         })
     }else{
 

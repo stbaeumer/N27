@@ -33,6 +33,10 @@
         </div>
         <div class="inhaltsbereich">
             <form method="post">
+                <select id="kontoArt" name="kontoArt">
+                    <option value="girokonto">Girokonto</option>
+                    <option value="sparkonto">Sparkonto</option>
+                </select>
                 <label>Kontoart:</label><br>
                 <input type="text" name="Kontoart" readonly value=<%= Kontoart %>  ><br>
                 <label>IBAN:</label><br>
