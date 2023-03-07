@@ -337,6 +337,10 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
         serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
         console.log("Der Cookie wurde erfolgreich gesetzt.")
 
+        // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen
+
+        console.log("Jetzt werden die Konten eingelesen")
+
         // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
         // UND ("&&") das Kennwort ebenfalls übereinstimmt,
         // dann gibt der Server die gerenderte Index-Seite zurück.
@@ -542,9 +546,7 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
-
-
-        // Die Index-Seite wird an den Browser gegeben:
+        // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
 
         serverAntwort.render('kontostandAnzeigen.ejs',{
             Kontostand: konto.Kontostand,
@@ -631,6 +633,8 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
             erfolgsmeldung = "Das " + kontoArt + " mit der IBAN " + iban + " wurde erfolgreich angelegt."
         }
     
+    })
+    
         // Nach dem Erstellen des Kontos wird die Serverantwort gerendet an den Browser zurückgegeben,.
 
         serverAntwort.render('kontoAnlegen.ejs', {
@@ -640,7 +644,7 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
 
             Erfolgsmeldung: erfolgsmeldung
         })
-    })
+    
 })
 
 //require('./Uebungen/ifUndElse.js')
