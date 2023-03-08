@@ -34,15 +34,21 @@
         <div class="inhaltsbereich">
             <form method="post">
                 <select id="kontoArt" name="kontoArt">
-                    <option value="girokonto">Girokonto</option>
-                    <option value="sparkonto">Sparkonto</option>
+                    <!-- Die for-Schleife sorgt dafür, dass das Dropdown-Menü alle Konten zur Auswahl anzeigt.
+                    Bei 5 Konten wird die Schleife 5x durchlaufen. 
+                    MeineIbans ist die Liste, die beim Rendern an den Browser übergeben wird.
+                    Die Eigenschaft length gibt die Anzahl der Elemente in der Liste zurück.
+                    Mit eckigen Klammern hinter MeineIbans kann ein einzelnes Element der Liste ausgewählt werden.
+                    Mit .iban wird die Eigenschaft Iban ausgelesen.
+                    -->
+                    <% for (var i=0; i < MeineIbans.length; i++){ %>
+                        <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
+                    <% } %>
                 </select>
                 <label>Kontoart:</label><br>
-                <input type="text" name="Kontoart" readonly value=<%= Kontoart %>  ><br>
-                <label>IBAN:</label><br>
-                <input type="text" name="IBAN" value=<%= IBAN %> readonly><br>        
+                <input type="text" name="Kontoart" readonly value=<%= MeineIbans[0].kontoart %>  ><br>
                 <label>Kontostand:</label><br>
-                <input type="number" name="Kontostand" readonly value=<%= Kontostand %>  ><br>
+                <input type="number" name="Kontostand" readonly value=<%= MeineIbans[0].anfangssaldo %>  ><br>
             </form>   
             <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
         </div>

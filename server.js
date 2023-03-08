@@ -555,7 +555,7 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
         // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
         // Mit WHERE wird der Result zeilenweise aus der Tabelle gefiltert
 
-        dbVerbindung.query('SELECT iban FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
             console.log(result)
 
             // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
