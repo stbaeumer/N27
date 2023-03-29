@@ -25,7 +25,8 @@ var dbVerbindung = mysql.createConnection({
     // dann muss geprüft werden, ob der Datenbank-Dienst auf dem Rechner läuft. Dazu
     // melden wir uns auf dem Datenbankserver an und starten die MySQL-Workbench.
 
-    host: "130.255.124.99",
+    host: "10.40.38.110",
+    //host: "130.255.124.99",
     user: "placematman",
     password: "BKB123456!",
     database: "dbn27"
