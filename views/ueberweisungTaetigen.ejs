@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +7,12 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>N27</title>
+    <title>N27 - Überweisung tätigen</title>
 </head>
 <body>
     <div class="rahmen">
         <div class="kopf">
-            <h1>Willkommen bei der N27</h1>            
+            <h1>N27 - Überweisung tätigen</h1>
         </div>
         <div class="navigationsleiste">            
             <a href="/">
@@ -32,18 +32,18 @@
             </a>
         </div>
         <div class="inhaltsbereich">
-            <form>
-                <button class="login" formaction="/kontostandAnzeigen">Kontostand anzeigen</button>
-                <br>
-                <button class="login" formaction="/kreditBerechnen">Kredit berechnen</button>
-                <br>
-                <button class="login" formaction="/kontoAnlegen" >Konto anlegen</button>
-                <br>
+            <form method="post">
+                <label for="betrag">Betrag:</label><br>
+                <input type="number" name="Betrag"><br>
+                <label>Empfänger-IBAN:</label><br>
+                <input type="text" name="empfaengerIban"><br>
+            
                 <button class="login" formaction="/ueberweisungTaetigen">Überweisung tätigen</button>
             </form>
+            <p class="erfolg"> <%= Erfolgsmeldung %></p>
         </div>
         <div class="fusszeile">
-            &copy; 2022 GW21A
+            &copy; 2023 GW21A
         </div>
     </div>
 </body>
