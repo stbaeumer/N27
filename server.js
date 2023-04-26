@@ -674,9 +674,14 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
 
         let kunde = new Kunde()
 
-        kunde = JSON.parse(browserAnfrage.signedCookies['istAngemeldetAls'])
+        // Das Objekt Kunde wird mit der Funktion JSON.parse() aus dem Cookie gewonnen.
 
-        console.log(kunde)
+        kunde = JSON.parse(browserAnfrage.signedCookies['istAngemeldetAls'])
+        
+        // Anschließend kann das Kundenobjekt mit seinen Eigenschaftswerten aus-
+        // gelesen werden.
+        
+        console.log(kunde.IdKunde)
 
         // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert:
         // Der Abfragebefehl beginnt mit SELECT.
@@ -687,7 +692,7 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
         // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
         // Mit WHERE wird der Result zeilenweise aus der Tabelle gefiltert
 
-        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = ' + kunde.IdKunde + ';', function (fehler, result) {      
             console.log(result)
 
             // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
@@ -711,6 +716,39 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
     }                 
 })
 
+meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {              
+
+    let erfolgsmeldung = "Die Überweisung wurde ausgeführt."
+
+    // Die Werte aus dem Formular werden eingelesen
+
+    const absenderIban = browserAnfrage.body.AbsenderIban
+    console.log("IBAN des Absenders: " + absenderIban)
+    const betrag = browserAnfrage.body.Betrag
+    console.log("Betrag: " + betrag)
+    const verwendungszweck = browserAnfrage.body.Verwendungszweck
+    console.log("Verwendungszweck: " + verwendungszweck)
+    const empfaengerIban = browserAnfrage.body.EmpfaengerIban
+    console.log("IBAN des Empfängers: " + empfaengerIban)
+  
+    // Empfänger-IBAN auf Gültigkeit prüfen.
+
+
+    // Prüfung, ob der Kontostand des Absenders ausreicht.
+
+
+    // Überweisung in die Datenbank schreiben
+
+
+    serverAntwort.render('ueberweisungTaetigen.ejs', {        
+        Erfolgsmeldung: erfolgsmeldung,
+        MeineIbans: "",
+        AbsenderIban: absenderIban,
+        Betrag: betrag,
+        Verwendungszweck: verwendungszweck,
+        empfaengerIban: empfaengerIban
+    })
+})
 
 
 //require('./Uebungen/ifUndElse.js')

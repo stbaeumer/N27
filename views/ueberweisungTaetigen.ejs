@@ -34,7 +34,7 @@
         <div class="inhaltsbereich">
             <form method="post">
                 <label for="betrag">Absender-IBAN:</label><br>
-                <select id="kontoArt" name="kontoArt">                    
+                <select id="absenderIban" name="AbsenderIban">                    
                     <% for (var i=0; i < MeineIbans.length; i++){ %>
                         <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
                     <% } %>
@@ -42,9 +42,9 @@
                 <label for="betrag">Betrag:</label><br>
                 <input type="number" name="Betrag"><br>
                 <label for="betrag">Verwendungszweck:</label><br>
-                <input type="text" name="verwendungszweck"><br>
+                <input type="text" name="Verwendungszweck"><br>
                 <label>Empfänger-IBAN:</label><br>
-                <input type="text" name="empfaengerIban"><br>
+                <input type="text" name="EmpfaengerIban"><br>
             
                 <button class="login" formaction="/ueberweisungTaetigen">Überweisung tätigen</button>
             </form>
