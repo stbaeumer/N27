@@ -337,7 +337,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
 
         serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
         console.log("Der Cookie wurde erfolgreich gesetzt.")
-
+        
         // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen
         
         console.log("Jetzt werden die Konten eingelesen")
@@ -403,6 +403,8 @@ meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
 
+        cookieNachObjektUmwandeln(browserAnfrage.signedCookies['istAngemeldetAls'])
+
         serverAntwort.render('profile.ejs', {
             Vorname: kunde.Vorname,
             Nachname: kunde.Nachname,
@@ -420,7 +422,7 @@ meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {              
 
-    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){        
         serverAntwort.render('support.ejs', {
             Vorname: kundenberater.Vorname,
             Nachname: kundenberater.Nachname,
@@ -661,6 +663,49 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
         })
     
 })
+
+meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {              
+    
+    // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+    // dann ist die Prüfung WAHR und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet.
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        
+        // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert:
+        // Der Abfragebefehl beginnt mit SELECT.
+        // Anschließend wird die interessierende Spalte angegeben. 
+        // Mehrere interessierende Spalten werden mit Komma getrennt angegeben.
+        // Wenn alle Spalten ausgewählt werden sollen, kann vereinfachend * angegeben werden.
+        //   Beispiele: 'SELECT iban, anfangssaldo FROM ...' oder 'SELECT * FROM ...'
+        // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
+        // Mit WHERE wird der Result zeilenweise aus der Tabelle gefiltert
+
+        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+            console.log(result)
+
+            // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+            serverAntwort.render('ueberweisungTaetigen.ejs',{
+                MeineIbans: result,
+                Kontostand: konto.Kontostand,
+                IBAN: konto.IBAN,
+                Kontoart: konto.Kontoart,
+                Erfolgsmeldung: ""
+            })
+        })
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }                 
+})
+
+
 
 //require('./Uebungen/ifUndElse.js')
 //require('./Uebungen/klasseUndObjekt.js')

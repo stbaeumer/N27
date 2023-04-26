@@ -33,8 +33,16 @@
         </div>
         <div class="inhaltsbereich">
             <form method="post">
+                <label for="betrag">Absender-IBAN:</label><br>
+                <select id="kontoArt" name="kontoArt">                    
+                    <% for (var i=0; i < MeineIbans.length; i++){ %>
+                        <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
+                    <% } %>
+                </select>
                 <label for="betrag">Betrag:</label><br>
                 <input type="number" name="Betrag"><br>
+                <label for="betrag">Verwendungszweck:</label><br>
+                <input type="text" name="verwendungszweck"><br>
                 <label>Empfänger-IBAN:</label><br>
                 <input type="text" name="empfaengerIban"><br>
             
