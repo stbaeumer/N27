@@ -402,9 +402,7 @@ meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {
 meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {              
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
-
-        cookieNachObjektUmwandeln(browserAnfrage.signedCookies['istAngemeldetAls'])
-
+        
         serverAntwort.render('profile.ejs', {
             Vorname: kunde.Vorname,
             Nachname: kunde.Nachname,
@@ -672,6 +670,14 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
+        // Ein Objekt vom Typ Kunde wird deklariert und instanziiert.
+
+        let kunde = new Kunde()
+
+        kunde = JSON.parse(browserAnfrage.signedCookies['istAngemeldetAls'])
+
+        console.log(kunde)
+
         // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert:
         // Der Abfragebefehl beginnt mit SELECT.
         // Anschließend wird die interessierende Spalte angegeben. 
