@@ -716,37 +716,71 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
     }                 
 })
 
+// Wenn der Button namens Überweisung tätigen gedrückt wird, wird die Funktion abgearbeitet.
+
 meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {              
-
-    let erfolgsmeldung = "Die Überweisung wurde ausgeführt."
-
-    // Die Werte aus dem Formular werden eingelesen
 
     const absenderIban = browserAnfrage.body.AbsenderIban
     console.log("IBAN des Absenders: " + absenderIban)
-    const betrag = browserAnfrage.body.Betrag
-    console.log("Betrag: " + betrag)
-    const verwendungszweck = browserAnfrage.body.Verwendungszweck
-    console.log("Verwendungszweck: " + verwendungszweck)
-    const empfaengerIban = browserAnfrage.body.EmpfaengerIban
-    console.log("IBAN des Empfängers: " + empfaengerIban)
-  
-    // Empfänger-IBAN auf Gültigkeit prüfen.
 
+    dbVerbindung.query('SELECT * FROM konto WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
+        console.log(result)
 
-    // Prüfung, ob der Kontostand des Absenders ausreicht.
+        // Der Result besteht möglicherweise aus vielen Datensätzen.
+        // Um den Result auf den ersten Datensatz zu begrenzen, wird [0] hinter
+        // dem Result angegeben. Zuletzt wird die Eigenschaft anfangssaldo mit Punkt
+        // angehängt. Der zweite Datensatz würde mit result[1].anfangssaldo ausgelesen.
 
+        console.log("Anfangssaldo:" + result[0].anfangssaldo)
 
-    // Überweisung in die Datenbank schreiben
+        // Der String (=Zeichenkette) wird zugewiesen (=) an eine Variable namens erfolgsmeldung 
+        let erfolgsmeldung = "Die Überweisung wurde ausgeführt."
 
+        // Die Werte aus dem Formular werden eingelesen
+        
+        const betrag = browserAnfrage.body.Betrag
+        console.log("Überweisungsbetrag: " + betrag)
+        const verwendungszweck = browserAnfrage.body.Verwendungszweck
+        console.log("Verwendungszweck: " + verwendungszweck)
+        const empfaengerIban = browserAnfrage.body.EmpfaengerIban
+        console.log("IBAN des Empfängers: " + empfaengerIban)
+    
+        // Empfänger-IBAN auf Gültigkeit prüfen: Die Funktion isValid() wird auf das 
+        // IBAN-Modul aufgerufen. Als Parameter in den runden Klammern wird die
+        // Empfänger-IBAN übergeben. Die Funktion isValid() gibt entweder den Wert
+        // true oder false zurück.
 
-    serverAntwort.render('ueberweisungTaetigen.ejs', {        
-        Erfolgsmeldung: erfolgsmeldung,
-        MeineIbans: "",
-        AbsenderIban: absenderIban,
-        Betrag: betrag,
-        Verwendungszweck: verwendungszweck,
-        empfaengerIban: empfaengerIban
+        if(IBAN.isValid(empfaengerIban)){
+            erfolgsmeldung = "Die Empfänger-IBAN ist gültig."
+        }else{
+            erfolgsmeldung = "Die Empfänger-IBAN ist ungültig."
+        }    
+
+        // Prüfung, ob der Kontostand des Absenders ausreicht:
+        // Der gewünschte Überweisungsbetrag wird mit dem ausgelesenen Kontostand
+        // verglichen. Wenn der Betrag kleiner oder gleich dem Kontostand ist,
+        // dann ist das Konto des Absenders gedeckt.
+
+        if(betrag <= result[0].anfangssaldo){
+            // Der Wert der Variablen erfolgsmeldung wird ergänzt um die weitere Meldung
+            erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist gedeckt."
+        }else{
+            erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist nicht gedeckt."
+        }
+
+        // Überweisung in die Datenbank schreiben
+
+        
+
+        serverAntwort.render('ueberweisungTaetigen.ejs', {        
+            Erfolgsmeldung: erfolgsmeldung,
+            MeineIbans: "",
+            AbsenderIban: absenderIban,
+            Betrag: betrag,
+            Verwendungszweck: verwendungszweck,
+            empfaengerIban: empfaengerIban
+    
+        })
     })
 })
 
