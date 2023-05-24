@@ -807,7 +807,11 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
 
                     dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(resultEmpfaenger[0].anfangssaldo) + parseFloat(betrag)) + ' WHERE iban = "' + empfaengerIban + '";', function (fehler, result) {      
                     })
-                    erfolgsmeldung = erfolgsmeldung + "Die Überweisung wurde erfolgreich ausgeführt. "        
+
+                    // Mit dem += Operator wird die Zeichenkette um einen weiteren String
+                    // verlängert.
+
+                    erfolgsmeldung += "Die Überweisung wurde erfolgreich ausgeführt. "        
                 })
             }else{
                 erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist nicht gedeckt."
