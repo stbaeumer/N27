@@ -770,52 +770,51 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
             // der Variablen namens erfolgsmeldung zugewiesen.
             
             erfolgsmeldung = "Die Empfänger-IBAN ist gültig."
-        }else{
-            erfolgsmeldung = "Die Empfänger-IBAN ist ungültig."
-        }    
-
-        // Prüfung, ob der Kontostand des Absenders ausreicht:
-        // Der gewünschte Überweisungsbetrag wird mit dem ausgelesenen Kontostand
-        // verglichen. Wenn der Betrag kleiner oder gleich dem Kontostand ist,
-        // dann ist das Konto des Absenders gedeckt.
-
-        if(betrag <= result[0].anfangssaldo){
-            
-            // Der String "Das Konto ..." wird verkettet (+) mit dem Wert der Variablen
-            // erfolgsmeldung und dann zugewiesen (=) an die Variable namens Erfolgsmeldung.
-            
-            erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist gedeckt."
-
-            // Überweisung in die Datenbank schreiben:
-
-            // Zuerst wird zwischen der inneren Klammer der Betrag vom anfngssaldo abgezogen.
-            // Danach wird alles miteinander verkettet.
         
-            console.log("Neuer Anfangssaldo des Absenders: " + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)))
+            // Prüfung, ob der Kontostand des Absenders ausreicht:
+            // Der gewünschte Überweisungsbetrag wird mit dem ausgelesenen Kontostand
+            // verglichen. Wenn der Betrag kleiner oder gleich dem Kontostand ist,
+            // dann ist das Konto des Absenders gedeckt.
 
-            dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)) + ' WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
-                        
-            })
+            if(betrag <= result[0].anfangssaldo){
+                
+                // Der String "Das Konto ..." wird verkettet (+) mit dem Wert der Variablen
+                // erfolgsmeldung und dann zugewiesen (=) an die Variable namens Erfolgsmeldung.
+                
+                erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist gedeckt."
 
-            // Das Konto des Empfängers muss abgefragt werden, um den Anfangssaldo erhöhen zu können.
+                // Überweisung in die Datenbank schreiben:
+
+                // Zuerst wird zwischen der inneren Klammer der Betrag vom anfngssaldo abgezogen.
+                // Danach wird alles miteinander verkettet.
             
-            dbVerbindung.query('SELECT anfangssaldo FROM konto WHERE iban = "' + empfaengerIban + '";', function (fehler, resultEmpfaenger) {
+                console.log("Neuer Anfangssaldo des Absenders: " + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)))
 
-                // Der erste Datensatz (Zeile) des Results wird mit [0] gefiltert. Das gewünschte Attribut wird mit
-                // ".anfangssaldo" (Spalte) an den resultEmpfaenger[0] angehangen.
+                dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)) + ' WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
+                            
+                })
 
-                console.log("Anfangssaldo des Empfängers vor der Überweisung: " + resultEmpfaenger[0].anfangssaldo)
-            
-                // Die Gutschrift auf dem Empfängerkonto muss in die DB geschrieben werden:
+                // Das Konto des Empfängers muss abgefragt werden, um den Anfangssaldo erhöhen zu können.
+                
+                dbVerbindung.query('SELECT anfangssaldo FROM konto WHERE iban = "' + empfaengerIban + '";', function (fehler, resultEmpfaenger) {
 
-                dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(resultEmpfaenger[0].anfangssaldo) + parseFloat(betrag)) + ' WHERE iban = "' + empfaengerIban + '";', function (fehler, result) {      
+                    // Der erste Datensatz (Zeile) des Results wird mit [0] gefiltert. Das gewünschte Attribut wird mit
+                    // ".anfangssaldo" (Spalte) an den resultEmpfaenger[0] angehangen.
+
+                    console.log("Anfangssaldo des Empfängers vor der Überweisung: " + resultEmpfaenger[0].anfangssaldo)
+                
+                    // Die Gutschrift auf dem Empfängerkonto muss in die DB geschrieben werden:
+
+                    dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(resultEmpfaenger[0].anfangssaldo) + parseFloat(betrag)) + ' WHERE iban = "' + empfaengerIban + '";', function (fehler, result) {      
+                    })
                     erfolgsmeldung = erfolgsmeldung + "Die Überweisung wurde erfolgreich ausgeführt. "        
                 })
-            })
-        }else{
-            erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist nicht gedeckt."
-        }        
-
+            }else{
+                erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist nicht gedeckt."
+            }        
+        }else{            
+            erfolgsmeldung = "Die Empfänger-IBAN ist ungültig."            
+        }
         dbVerbindung.query('SELECT * FROM konto WHERE idKunde = ' + kunde.IdKunde + ';', function (fehler, resultMeineIbans) { 
 
             serverAntwort.render('ueberweisungTaetigen.ejs', {        
