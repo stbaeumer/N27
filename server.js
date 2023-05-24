@@ -720,10 +720,19 @@ meineApp.get('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {              
 
+    // Der Wert von "AbsenderIban" aus der Browseranfrage wird zugewiesen (=)
+    // an eine Konstante namens absenderIban.
+    
     const absenderIban = browserAnfrage.body.AbsenderIban
+        
     console.log("IBAN des Absenders: " + absenderIban)
 
-    dbVerbindung.query('SELECT * FROM konto WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
+
+    // Die Datenbank wird abgefragt und der passende Datensatz mit allen Attributwerten (*)
+    // zur abesenderIban als result an den Server übergeben.
+
+    dbVerbindung.query('SELECT * FROM konto WHERE iban = "' + absenderIban + '";', function (fehler, result) {
+        
         console.log(result)
 
         // Der Result besteht möglicherweise aus vielen Datensätzen.
@@ -731,18 +740,24 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
         // dem Result angegeben. Zuletzt wird die Eigenschaft anfangssaldo mit Punkt
         // angehängt. Der zweite Datensatz würde mit result[1].anfangssaldo ausgelesen.
 
-        console.log("Anfangssaldo:" + result[0].anfangssaldo)
+        console.log("Anfangssaldo: " + result[0].anfangssaldo)
 
         // Der String (=Zeichenkette) wird zugewiesen (=) an eine Variable namens erfolgsmeldung 
+        
         let erfolgsmeldung = "Die Überweisung wurde ausgeführt."
 
         // Die Werte aus dem Formular werden eingelesen
         
         const betrag = browserAnfrage.body.Betrag
+        
         console.log("Überweisungsbetrag: " + betrag)
+        
         const verwendungszweck = browserAnfrage.body.Verwendungszweck
+        
         console.log("Verwendungszweck: " + verwendungszweck)
+        
         const empfaengerIban = browserAnfrage.body.EmpfaengerIban
+        
         console.log("IBAN des Empfängers: " + empfaengerIban)
     
         // Empfänger-IBAN auf Gültigkeit prüfen: Die Funktion isValid() wird auf das 
@@ -751,6 +766,10 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
         // true oder false zurück.
 
         if(IBAN.isValid(empfaengerIban)){
+            
+            // Wenn die empfaengerIban gültig ist, dann wird der String "Erfolg" 
+            // der Variablen namens erfolgsmeldung zugewiesen.
+            
             erfolgsmeldung = "Die Empfänger-IBAN ist gültig."
         }else{
             erfolgsmeldung = "Die Empfänger-IBAN ist ungültig."
@@ -762,15 +781,35 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
         // dann ist das Konto des Absenders gedeckt.
 
         if(betrag <= result[0].anfangssaldo){
-            // Der Wert der Variablen erfolgsmeldung wird ergänzt um die weitere Meldung
+            
+            // Der String "Das Konto ..." wird verkettet (+) mit dem Wert der Variablen
+            // erfolgsmeldung und dann zugewiesen (=) an die Variable namens Erfolgsmeldung.
+            
             erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist gedeckt."
+
+            // Überweisung in die Datenbank schreiben:
+
+            // Zuerst wird zwischen der inneren Klammer der Betrag vom anfngssaldo abgezogen.
+            // Danach wird alles miteinander verkettet.
+        
+            console.log("Neuer Anfangssaldo des Absenders: ")
+
+            dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)) + ' WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
+                        
+            })
+
+            // Die Gutschrift auf dem Empfängerkonto muss in die DB geschrieben werden:
+
+            console.log("Neuer Anfangssaldo des Empfängers: " + parseFloat(result[0].anfangssaldo) - parseFloat(betrag))
+
+            dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(result[0].anfangssaldo) + parseFloat(betrag)) + ' WHERE iban = "' + empfaengerIban + '";', function (fehler, result) {      
+                        
+            })
+
+
         }else{
             erfolgsmeldung = erfolgsmeldung + " Das Konto des Absenders ist nicht gedeckt."
-        }
-
-        // Überweisung in die Datenbank schreiben
-
-        
+        }        
 
         serverAntwort.render('ueberweisungTaetigen.ejs', {        
             Erfolgsmeldung: erfolgsmeldung,
