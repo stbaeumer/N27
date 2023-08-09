@@ -33,7 +33,8 @@
         </div>
         <div class="inhaltsbereich">
             <form method="post">
-                <select id="kontoArt" name="kontoArt">
+                <label id="ABC">IBAN wählen:</label><br>
+                <select id="iban" name="iban">
                     <!-- Die for-Schleife sorgt dafür, dass das Dropdown-Menü alle Konten zur Auswahl anzeigt.
                     Bei 5 Konten wird die Schleife 5x durchlaufen. 
                     MeineIbans ist die Liste, die beim Rendern an den Browser übergeben wird.
@@ -43,12 +44,13 @@
                     -->
                     <% for (var i=0; i < MeineIbans.length; i++){ %>
                         <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
-                    <% } %>
+                    <% } %>                    
                 </select>
                 <label>Kontoart:</label><br>
                 <input type="text" name="Kontoart" readonly value=<%= MeineIbans[0].kontoart %>  ><br>
                 <label>Kontostand:</label><br>
                 <input type="number" name="Kontostand" readonly value=<%= MeineIbans[0].anfangssaldo %>  ><br>
+                <button class="login" formaction="/kontostandAnzeigen">Bitte ein Konto auswählen</button>
             </form>   
             <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
         </div>

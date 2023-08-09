@@ -562,6 +562,9 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
             // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
 
             serverAntwort.render('kontostandAnzeigen.ejs',{
+
+                // Der result wird an die ejs-Seite übergeben und steckt dann in dem Attribut MeineIbans
+                // Der Datentyp von MeineIbans ist dann eine Liste
                 MeineIbans: result,
                 Kontostand: konto.Kontostand,
                 IBAN: konto.IBAN,
@@ -580,6 +583,43 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
     }                 
 })
 
+meineApp.post('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {              
+
+    dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+        console.log(result)
+
+        console.log("Ausgewähltes Element:")
+        console.log( browserAnfrage.body.iban)   
+    
+        var ausgewaehltesKontoIban = browserAnfrage.body.iban
+
+        // Mit der for-Schleife wird der result solange durchlaufen, bis der Wert von ausgewaehltesKonto
+        // mit dem Wert des durchlaufenen Kontos übereinstimmt.
+
+        for (let i = 0; i <= result.length; i++) {
+           
+           if(ausgewaehltesKontoIban == result[i].iban){
+                console.log("Kontoart:")
+                console.log(result[i].kontoart)
+                console.log("Kontostand:")
+                console.log(result[i].anfangssaldo) 
+           }
+        }
+
+        // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+        serverAntwort.render('kontostandAnzeigen.ejs',{
+
+            // Der result wird an die ejs-Seite übergeben und steckt dann in dem Attribut MeineIbans
+            // Der Datentyp von MeineIbans ist dann eine Liste
+            MeineIbans: result,
+            Kontostand: konto.Kontostand,
+            IBAN: konto.IBAN,
+            Kontoart: konto.Kontoart,
+            Erfolgsmeldung: ""
+        })
+    })
+})
 
 // Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald der Button 
 // auf der kontoAnlegen-Seite gedrückt wird und das Formular abgesendet ('gepostet') wird.
