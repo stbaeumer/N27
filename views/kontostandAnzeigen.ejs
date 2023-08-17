@@ -46,11 +46,14 @@
                         <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
                     <% } %>                    
                 </select>
+                <button class="login" formaction="/kontostandAnzeigen">ausgewähltes Konto anzeigen:</button>
+                <label>Ausgewähltes Konto:</label>
+                <input type="text" name="IBAN" readonly value=<%= IBAN %>  ><br>
                 <label>Kontoart:</label><br>
-                <input type="text" name="Kontoart" readonly value=<%= MeineIbans[0].kontoart %>  ><br>
+                <input type="text" name="Kontoart" readonly value=<%= Kontoart %>  ><br>
                 <label>Kontostand:</label><br>
-                <input type="number" name="Kontostand" readonly value=<%= MeineIbans[0].anfangssaldo %>  ><br>
-                <button class="login" formaction="/kontostandAnzeigen">Bitte ein Konto auswählen</button>
+                <input type="number" name="Kontostand" readonly value=<%= Kontostand %>  ><br>
+                
             </form>   
             <p class="erfolgsmeldung"><%= Erfolgsmeldung %></p>
         </div>
