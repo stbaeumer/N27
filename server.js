@@ -139,6 +139,28 @@ dbVerbindung.connect(function(fehler){
     })
 });
 
+dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALLINT, empfaengerIban VARCHAR(45), verwendungszweck VARCHAR(45), absenderIban VARCHAR(45), name VARCHAR(45), PRIMARY KEY(empfaengerIban,timestamp));', function (fehler) {
+      
+    // Falls ein Problem bei der Query aufkommt, ...
+    
+    if (fehler) {
+    
+        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+
+        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+
+            //... dann wird eine Fehlermdldung geloggt. 
+
+            console.log("Tabelle kontobewegung existiert bereits und wird nicht angelegt.")
+        
+        }else{
+            console.log("Fehler: " + fehler )
+        }
+    }else{
+            console.log("Tabelle kredit erfolgreich angelegt.")
+     }
+  })
+
 // Ein Kunde soll neu in der Datenbank angelegt werden.
 
 dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
