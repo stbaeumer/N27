@@ -168,8 +168,8 @@ dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALL
         }
     }else{
             console.log("Tabelle kredit erfolgreich angelegt.")
-     }
-  })
+    }
+})
 
 // Ein Kunde soll neu in der Datenbank angelegt werden.
 
@@ -947,6 +947,140 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
         })
     })
 })
+
+meineApp.get('/kontobewegungAnzeigen',(browserAnfrage, serverAntwort, next) => {              
+    
+    // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+    // dann ist die Prüfung WAHR und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet.
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        
+        // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert:
+        // Der Abfragebefehl beginnt mit SELECT.
+        // Anschließend wird die interessierende Spalte angegeben. 
+        // Mehrere interessierende Spalten werden mit Komma getrennt angegeben.
+        // Wenn alle Spalten ausgewählt werden sollen, kann vereinfachend * angegeben werden.
+        //   Beispiele: 'SELECT iban, anfangssaldo FROM ...' oder 'SELECT * FROM ...'
+        // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
+        // Mit WHERE wird der Result zeilenweise aus der Tabelle gefiltert
+
+        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+            console.log(result)
+
+            dbVerbindung.query('SELECT * FROM kontobewegung WHERE absenderIban = "' + result[0].AbsenderIban + '";', function (fehler, resultKontobewegung) {       
+        
+                console.log("Kontobewegungen zu Konto " + ausgewaehltesKontoIban + ":")
+                console.log(resultKontobewegung)
+             
+                // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+                serverAntwort.render('kontobewegungAnzeigen.ejs',{
+
+                    // Der result wird an die ejs-Seite übergeben und steckt dann in dem Attribut MeineIbans
+                    // Der Datentyp von MeineIbans ist dann eine Liste
+                    MeineIbans: result,
+                    Kontostand: konto.Kontostand,
+                    IBAN: konto.IBAN,
+                    Kontobewegungen: resultKontobewegung,
+                    Erfolgsmeldung: ""
+                })
+            })
+        })
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }                 
+})
+
+// Wenn der Button "Bitte ein Konto auswählen" gedrückt wird, wird die
+// meineApp.post-Funktion abgearbeitet.
+
+meineApp.post('/kontobewegungAnzeigen',(browserAnfrage, serverAntwort, next) => {              
+
+    // Es wird eine Variable namens index instanziert. Beim Schleifendurchauf 
+    // wird index der Wert der ausgewählten Variablen zugewiesen
+
+    var index
+
+    // Eine Verbindung zur DB wird ausgewählt. Alle Zeilen werden ausgewählt, in denen die idKunde 1500000 ist.
+    // Das Ergebnis, das die DB uns zurückgibt steckt im result.
+
+    dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 150000;', function (fehler, result) {      
+        
+        // Der result (alle meine Konten) wird auf der Console geloggt.
+        
+        console.log(result)
+
+        console.log("Ausgewähltes Element:")
+
+        // Die IBAN, die im Select ausgewählt wurde, wird auf der Console geloggt.
+
+        console.log(browserAnfrage.body.iban)   
+    
+        // Der Wert der Variablen iban aus der Browseranfrage wird der Variablen ausgewaehltesKontoIban zugewiesen. 
+
+        var ausgewaehltesKontoIban = browserAnfrage.body.iban
+
+        // Mit der for-Schleife wird der result solange durchlaufen, bis der Wert von 
+        // ausgewaehltesKonto mit dem Wert des durchlaufenen Kontos übereinstimmt.
+
+        // Zur For-Scheife: Eine For-Schleife besteht immer aus drei Teilen:
+        // let i = 0: Eine Variable namens i wird mit 0 initialisiert.
+        // i <= result.length: Die Schleife wird solange durchlaufen, bis die Anzahl der
+        //                     Elemente im result erreicht ist.
+        // i++:  i wird mit jedem Schleifendurchlauf um 1 hochgezählt
+
+        for (let i = 0; i <= result.length; i++) {
+           
+            // Wenn der Wert der Variablen ausgewaehltesKontoIban mit dem 
+            // gerade in der Schleife durchlaufenen Element aus dem result übereinstimmt, ...
+
+           if(ausgewaehltesKontoIban === result[i].iban){
+            
+                // ... dann werden die Eigenschften des Kontos aus dem result geloggt:
+            
+                console.log("Kontoart des ausgewählten Kontos:")
+                console.log(result[i].kontoart)
+                console.log("Kontostand des ausgewählten Kontos:")
+                console.log(result[i].anfangssaldo) 
+                console.log("Index des ausgewählten Kontos:")
+                console.log(i)
+                index = i            
+                
+                // Sobald das gewünschte Element gefunden wurde, verlassen wir die Schleife
+                // mit dem Befehl break: 
+
+                break;
+           }
+        }
+
+        dbVerbindung.query('SELECT * FROM kontobewegung WHERE absenderIban = "' + ausgewaehltesKontoIban + '";', function (fehler, resultKontobewegung) {       
+        
+            console.log("Kontobewegungen zu Konto " + ausgewaehltesKontoIban + ":")
+            console.log(resultKontobewegung)
+        
+            // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+            serverAntwort.render('kontobewegungAnzeigen.ejs',{
+
+                // Der result wird an die ejs-Seite übergeben und steckt dann in dem Attribut MeineIbans
+                // Der Datentyp von MeineIbans ist dann eine Liste
+                MeineIbans: result,
+                Kontostand: result[index].anfangssaldo,
+                IBAN: result[index].iban,
+                Kontobewegungen: resultKontobewegung,
+                Erfolgsmeldung: ""
+            })
+        })
+    })
+})
+
 
 
 //require('./Uebungen/ifUndElse.js')

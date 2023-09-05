@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>N27 - Kontobewegung anzeigen</title>
+</head>
+<body>
+    <div class="rahmen">
+        <div class="kopf">
+            <h1>N27 - Kontobewegung anzeigen</h1>
+        </div>
+        <div class="navigationsleiste">            
+            <a href="/">
+                <i class="fa fa-home fa-2x" aria-hidden="true" title="Willkommen"></i>
+            </a> --
+            <a href="/profile">
+                <i class="fa fa-user fa-2x" aria-hidden="true" title="Mein Profil"></i>
+            </a>   --
+            <a href="/about">
+                <i class="fa fa-info fa-2x" aria-hidden="true" title="Über uns"></i>
+            </a>   --
+            <a href="/support">
+                <i class="fa fa-phone-square fa-2x" aria-hidden="true" title="Über uns"></i>
+            </a>   --
+            <a href="/login">
+                <i class="fa fa-sign-out fa-2x" title="Abmelden"></i>
+            </a>
+        </div>
+        <div class="inhaltsbereich">
+            <label id="ABC">IBAN wählen:</label><br>
+                <select id="iban" name="iban">
+                    <!-- Die for-Schleife sorgt dafür, dass das Dropdown-Menü alle Konten zur Auswahl anzeigt.
+                    Bei 5 Konten wird die Schleife 5x durchlaufen. 
+                    MeineIbans ist die Liste, die beim Rendern an den Browser übergeben wird.
+                    Die Eigenschaft length gibt die Anzahl der Elemente in der Liste zurück.
+                    Mit eckigen Klammern hinter MeineIbans kann ein einzelnes Element der Liste ausgewählt werden.
+                    Mit .iban wird die Eigenschaft Iban ausgelesen.
+                    -->
+                    <% for (var i=0; i < MeineIbans.length; i++){ %>
+                        <option value="<%= MeineIbans[i].iban %>"><%= MeineIbans[i].iban %></option>
+                    <% } %>                    
+                </select>
+                <button class="login" formaction="/kontobewegungAnzeigen">ausgewähltes Konto anzeigen:</button>
+                <label>Ausgewähltes Konto:</label>
+                <input type="text" name="IBAN" readonly value=<%= IBAN %>  ><br>
+                <label>Kontobewegungen:</label><br>
+
+                <% for (var i=0; i < Kontobewegungen.length; i++){ %>
+                    <label><%=Kontobewegungen[i].verwendungszweck%></label>
+                <% } %>
+                
+            <p class="erfolg"> <%= Erfolgsmeldung %></p>
+        </div>
+        <div class="fusszeile">
+            &copy; 2023 GW21A
+        </div>
+    </div>
+</body>
+</html>
