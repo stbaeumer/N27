@@ -139,7 +139,17 @@ dbVerbindung.connect(function(fehler){
     })
 });
 
-dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALLINT, empfaengerIban VARCHAR(45), verwendungszweck VARCHAR(45), absenderIban VARCHAR(45), name VARCHAR(45), PRIMARY KEY(empfaengerIban,timestamp));', function (fehler) {
+// Datenbanken können verhindern, dass z.B. ein Konto gelöscht wird, zu dem es noch
+// Kontobewegungen gibt. Das ist ein Sicherheitsmechanismus. In der CREATE TABLE ...
+// muss am Ende ergänzt werden: FOREIGN KEY (absenderIban) REFERENCES konto(iban)
+// Das bedeutet, dass zu der absenderIban in der Kontobewegung-Tabelle eine Iban
+// in der Kontotabelle existiert. Bevor ein Konto gelöscht werden kann, müssen alle
+// Kontobewegungen gelöscht werden. Man sagt dazu, dass eine LÖSCHANOMALIE verhindert
+// wird. Ebenso kann keine Kontobewegung angelegt werden zu einem Konto, dass es nicht
+// gibt. Das würde man EINFÜGEANOMALIE nennen.
+
+
+dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALLINT, empfaengerIban VARCHAR(45), verwendungszweck VARCHAR(45), absenderIban VARCHAR(45), name VARCHAR(45), PRIMARY KEY(empfaengerIban,timestamp), FOREIGN KEY (absenderIban) REFERENCES konto(iban));', function (fehler) {
       
     // Falls ein Problem bei der Query aufkommt, ...
     
@@ -891,8 +901,12 @@ meineApp.post('/ueberweisungTaetigen',(browserAnfrage, serverAntwort, next) => {
             
                 console.log("Neuer Anfangssaldo des Absenders: " + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)))
 
-                dbVerbindung.query('UPDATE konto SET anfangssaldo = ' + (parseFloat(result[0].anfangssaldo) - parseFloat(betrag)) + ' WHERE iban = "' + absenderIban + '";', function (fehler, result) {      
-                            
+                // Es muss für jede Überweisung ein neuer Datensatz in der Tabelle kontobewegung
+                // eingefügt werden (INSERT INTO)
+
+                dbVerbindung.query('INSERT INTO kontobewegung(timestamp, betrag, empfaengerIban, verwendungszweck, absenderIban, name) VALUES (NOW(), 100, "DE123Empf", "Verwendungszweck", "DE05270000009708846254", "MeinName") ;', function (fehler) {
+                    console.log("fehler:")            
+                    console.log(fehler)            
                 })
 
                 // Das Konto des Empfängers muss abgefragt werden, um den Anfangssaldo erhöhen zu können.
