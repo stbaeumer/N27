@@ -484,6 +484,36 @@ meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
+meineApp.post('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {              
+
+    let betrag = browserAnfrage.body.Betrag
+    console.log("Betrag: " + betrag)
+
+    let laufzeit = browserAnfrage.body.Laufzeit
+    console.log("Laufzeit: " + laufzeit)
+
+    let zinssatz = browserAnfrage.body.Zinssatz
+    console.log("Zinssatz: " + zinssatz)
+
+    // Annahme: Jedes Jahr werden die angefallenen Zisnen überwiesen:
+
+    let kreditkosten = betrag * zinssatz / 100 * laufzeit
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('kreditBerechnen.ejs', {
+            Betrag: betrag,
+            Laufzeit: laufzeit,
+            Zinssatz: zinssatz,
+            Erfolgsmeldung:"Ihre Kreditkosten betragen: " + kreditkosten
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
+
 // Die Funktion meineApp.get('/kontoAnlegen'...  wird abgearbeitet, sobald die Seite
 // kontoanlegen im Browser aufgerufen wird.
 
