@@ -311,7 +311,8 @@ konto.Kontoart = "Giro"
 const express = require('express')
 const bodyParser = require('body-parser')
 const meineApp = express()
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { DECIMAL } = require('mysql/lib/protocol/constants/types');
 meineApp.set('view engine', 'ejs')
 meineApp.use(express.static('public'))
 meineApp.use(bodyParser.urlencoded({extended: true}))
@@ -484,9 +485,16 @@ meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
+// Die Funktion meineApp.post('/kreditBe... wird ausgeführt, wenn  der Button gedrückt wird.
+
 meineApp.post('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {              
 
+    // Der Wert der Variablen namens Betrag aus dem Formular in der EJS-Datei
+    // wird einer Variablen namens betrag zugewiesen.
     let betrag = browserAnfrage.body.Betrag
+    
+    // Der Wert der Variablen namens Betrag wird zu einem String verkettet
+    // und im Terminal ausgegeben.
     console.log("Betrag: " + betrag)
 
     let laufzeit = browserAnfrage.body.Laufzeit
@@ -495,7 +503,7 @@ meineApp.post('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {
     let zinssatz = browserAnfrage.body.Zinssatz
     console.log("Zinssatz: " + zinssatz)
 
-    // Annahme: Jedes Jahr werden die angefallenen Zisnen überwiesen:
+    // Annahme: Jedes Jahr werden die angefallenen Zinsen überwiesen:
 
     let kreditkosten = betrag * zinssatz / 100 * laufzeit
 
@@ -1110,6 +1118,64 @@ meineApp.post('/kontobewegungAnzeigen',(browserAnfrage, serverAntwort, next) => 
         })
     })
 })
+
+meineApp.get('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('geldAnlegen.ejs', {
+            Betrag: "",
+            Laufzeit: "",
+            Zinssatz:"",
+            Erfolgsmeldung:""
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
+// Die Funktion meineApp.post('/kreditBe... wird ausgeführt, wenn  der Button gedrückt wird.
+
+meineApp.post('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {              
+
+    // Der Wert der Variablen namens Betrag aus dem Formular in der EJS-Datei
+    // wird einer Variablen namens betrag zugewiesen.
+    let betrag = browserAnfrage.body.Betrag
+    
+    // Der Wert der Variablen namens Betrag wird zu einem String verkettet
+    // und im Terminal ausgegeben.
+    console.log("Betrag: " + betrag)
+
+    let laufzeit = browserAnfrage.body.Laufzeit
+    console.log("Laufzeit: " + laufzeit)
+
+    let zinssatz = browserAnfrage.body.Zinssatz
+    console.log("Zinssatz: " + zinssatz)
+
+    // Wenn die Laufzeit 0 Jahre beträgt, wird die Schleife nicht durch-
+    // laufen und der Rückzahungsbetrag entspricht dem eingezahlten Betrag.
+    let rückzahlungsbetrag = parseFloat(betrag)
+
+    for (let i = 0; i < laufzeit; i++) {
+        rückzahlungsbetrag += (rückzahlungsbetrag * zinssatz / 100)
+        console.log("Rückzahlung nach " + (i+1) + " Jahren: " + rückzahlungsbetrag)
+    } 
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('geldAnlegen.ejs', {
+            Betrag: betrag,
+            Laufzeit: laufzeit,
+            Zinssatz: zinssatz,
+            Erfolgsmeldung:"Nach " + laufzeit + " Jahren Laufzeit bekommen Sie " + rückzahlungsbetrag.toLocaleString('en-IN', {style: 'currency',currency: 'EUR', minimumFractionDigits: 2}) + " ausgezahlt."
+        })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
 
 
 
