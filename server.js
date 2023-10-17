@@ -173,7 +173,7 @@ dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALL
 
 // Ein Kunde soll neu in der Datenbank angelegt werden.
 
-dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
+dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (150000, "Pit", "Kiff", "BOR", "123", "pk@web.de") ;', function (fehler) {
       
     // Falls ein Problem bei der Query aufkommt, ...
     
@@ -362,34 +362,49 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
 
     // Die Identität des Kunden wird überprüft.
     
-    if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){
+    dbVerbindung.query('SELECT * FROM kunde WHERE idKunde = ' + idKunde + ' AND kennwort ="' + kennwort + '";', function (fehler, result) {      
+        
+        console.log(result)
+
+        if(result.length === 1){
     
-        // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt.
-        // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt.
-        // Der Cookie wird signiert, also gegen Manpulationen geschützt.
+            // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt.
+            // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt.
+            // Der Cookie wird signiert, also gegen Manpulationen geschützt.
+    
+            serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
+            console.log("Der Cookie wurde erfolgreich gesetzt.")
+            
+            // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen
+            
+            console.log("Jetzt werden die Konten eingelesen")
+    
+            // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
+            // UND ("&&") das Kennwort ebenfalls übereinstimmt,
+            // dann gibt der Server die gerenderte Index-Seite zurück.
+            
+            serverAntwort.render('index.ejs', {})
+        }else{
+    
+            // Wenn entweder die eingegebene Id oder das Kennwort oder beides
+            // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
+            // gerenderte Login-Seite an den Browser zurückgegeben.
+    
+            serverAntwort.render('login.ejs', {
+                Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
+            })
+        }
+    })
 
-        serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
-        console.log("Der Cookie wurde erfolgreich gesetzt.")
-        
-        // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen
-        
-        console.log("Jetzt werden die Konten eingelesen")
 
-        // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
-        // UND ("&&") das Kennwort ebenfalls übereinstimmt,
-        // dann gibt der Server die gerenderte Index-Seite zurück.
-        
-        serverAntwort.render('index.ejs', {})
-    }else{
 
-        // Wenn entweder die eingegebene Id oder das Kennwort oder beides
-        // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
-        // gerenderte Login-Seite an den Browser zurückgegeben.
 
-        serverAntwort.render('login.ejs', {
-            Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
-        })
-    }
+
+
+
+
+
+    
 })
 
 
@@ -1135,7 +1150,7 @@ meineApp.get('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {
     }              
 })
 
-// Die Funktion meineApp.post('/kreditBe... wird ausgeführt, wenn  der Button gedrückt wird.
+// Die Funktion meineApp.post('/geldAn... wird ausgeführt, wenn  der Button gedrückt wird.
 
 meineApp.post('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {              
 
@@ -1147,9 +1162,15 @@ meineApp.post('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {
     // und im Terminal ausgegeben.
     console.log("Betrag: " + betrag)
 
+    // Aus der Browseranfrage wird die Variable namens
+    // Laufzeit ausgelesen und einer lokalen Variablen
+    // namens laufzeit zugewisen.
     let laufzeit = browserAnfrage.body.Laufzeit
     console.log("Laufzeit: " + laufzeit)
 
+    //Aus der Browseranfrage wird die Variable namens
+    // Zinssatz ausgelesen und an eine lokale Variable 
+    // namens zinssatz zugewiesen.
     let zinssatz = browserAnfrage.body.Zinssatz
     console.log("Zinssatz: " + zinssatz)
 
@@ -1157,7 +1178,17 @@ meineApp.post('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {
     // laufen und der Rückzahungsbetrag entspricht dem eingezahlten Betrag.
     let rückzahlungsbetrag = parseFloat(betrag)
 
+
+    // Eine For-Schleife ist eine Kontrollstruktur, die 
+    // verwendet wird, um eine bestimmte Aufgabe mehrmals
+    // auszuführen, solange eine bestimmte Bedingung 
+    // (hier: i < laufzeit) erfüllt ist.
+    // i wird mit jedem Schleifendurchlauf um 1 hochgezählt.
     for (let i = 0; i < laufzeit; i++) {
+        
+        // Mit jedem Schleifendurchlauf wird der Rückzahlungsbetrag 
+        // mit dem Zinssatz multipliziert, um die Zinsen auszurechnen,
+        // die dann auf die ursprünglichen Rückzahlungsbetrag hinzuaddiert werden.
         rückzahlungsbetrag += (rückzahlungsbetrag * zinssatz / 100)
         console.log("Rückzahlung nach " + (i+1) + " Jahren: " + rückzahlungsbetrag)
     } 
