@@ -229,22 +229,6 @@ class Kunde{
     }
 }
 
-// Von der Kunden-Klasse wird eine konkrete Instanz gebildet. 
-
-let kunde = new Kunde()
-
-// Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen.
-
-
-
-kunde.IdKunde = 150000
-kunde.Nachname = "Müller"
-kunde.Vorname = "Pit"
-kunde.Geburtsdatum = "23.10.2000"
-kunde.Mail = "mueller@web.de"
-kunde.Kennwort = "123"
-kunde.Rufnummer = "+49123/4567890"
-
 class Kundenberater{
     constructor(){
         this.IdKundenberater
@@ -357,17 +341,53 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
     const idKunde = browserAnfrage.body.IdKunde
     const kennwort = browserAnfrage.body.Kennwort
     
+    // IdKunde und Kennwort werden auf der Konsole geloggt.
+
+    console.log("Ein Kunde versucht sich anzumelden.")
     console.log("ID des Kunden: " + idKunde)
     console.log("Kennwort des Kunden: " + kennwort)
 
     // Die Identität des Kunden wird überprüft.
+    // Dazu wird die Tabelle Kunde auf einen Kunden mit IdKunde und Kennwort abgefragt.
     
     dbVerbindung.query('SELECT * FROM kunde WHERE idKunde = ' + idKunde + ' AND kennwort ="' + kennwort + '";', function (fehler, result) {      
         
+        // Der oder die zurückgegebenen Datensätze stecken im result und werden auf der Konsole geloggt.
+
         console.log(result)
 
+        // Wenn im result exakt ein Datensatz zurückgegeben wird, bedeutet dass, das 
+        // es einen Kunden mit dieser idKunde und dem Kennwort in der Datenbank gibt.
+        // Es kann in der Datenbank höchstes ein Datensatz mit einer bestimmten Kombination aus
+        // idKunde und Kennwort geben, weil idKunde in der Tabelle kunde Primary Key ist.
+        
         if(result.length === 1){
-    
+
+            console.log("Die Anmeldedaten des Kunden sind korrekt.")
+
+            // Wenn der Kunde berechtigt ist, wird aus dem result ein Kundenobjekt erzeugt.
+            // "let kunde" bedeutet, dass ein Kundenobjekt deklariert wird. Der Name ist 
+            // kunde.    
+            // "new Kunde()" bedeutet, dass das Objekt instanziiert wird. Das wiederum heißt, dass
+            // Speiherzellen im Arbeitsspeicher reserviert werden. 
+            let kunde = new Kunde()
+
+            // Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen. Das nennt man
+            // Initialisierung.
+
+            // mit "[0]" wird der erste Datensatz aus dem result isoliert. [1] wäre der zweite Datensatz usw.
+            // Dahinter wird der Nae der Eigenschaft angegeben.
+            // Die Werte aus dem result werden unserem Kundenobjekt zugewiesen.
+
+            kunde.IdKunde = result[0].idKunde
+            kunde.Nachname = result[0].nachname
+            kunde.Vorname = result[0].vorname
+            kunde.Mail = result[0].mail
+            kunde.Kennwort = result[0].kennwort
+            kunde.Ort = result[0].ort
+
+            console.log(kunde)
+
             // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt.
             // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt.
             // Der Cookie wird signiert, also gegen Manpulationen geschützt.
@@ -395,18 +415,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
             })
         }
     })
-
-
-
-
-
-
-
-
-
-    
 })
-
 
 // Wenn die login-Seite im Browser aufgerufen wird, ...
 
@@ -451,11 +460,15 @@ meineApp.get('/profile',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
+        // Die Eigenschaftswerte des Kunden stecken imCookie und werden zu einem Kundenobjekt
+        
+        const kunde = JSON.parse(browserAnfrage.signedCookies.istAngemeldetAls)
+
         serverAntwort.render('profile.ejs', {
             Vorname: kunde.Vorname,
             Nachname: kunde.Nachname,
             Mail: kunde.Mail,
-            Rufnummer: kunde.Rufnummer,
+            Ort: kunde.Ort,
             Kennwort: kunde.Kennwort,
             Erfolgsmeldung: ""
         })
@@ -750,6 +763,8 @@ meineApp.post('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
     
+    const kunde = JSON.parse(browserAnfrage.signedCookies.istAngemeldetAls)
+
     let erfolgsmeldung = ""
 
     // Die im Formular eingegebene Kontoart wird an die Konstante namens kontoArt zugewiesen
@@ -800,7 +815,7 @@ meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {
 
     // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle konto angelegt werden.
 
-    dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 150000, 1, "' + kontoArt + '", NOW()) ;', function (fehler) {
+    dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", "'+ kunde.IdKunde +'", 1, "' + kontoArt + '", NOW()) ;', function (fehler) {
       
         // Falls ein Problem bei der Query aufkommt, ...
         
