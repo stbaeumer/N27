@@ -121,7 +121,12 @@ h2 {
   font-family: Arial, Helvetica, sans-serif;
   text-align:center;
 }
-  
+
+/* Blauer Hyperlink */
+.blue-link {
+  color: blue;
+}
+
 a {  
   color: white;  
   text-decoration: none;

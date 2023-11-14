@@ -129,13 +129,13 @@ dbVerbindung.connect(function(fehler){
   
               //... dann wird eine Fehlermdldung geloggt. 
   
-              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+              console.log("Tabelle konto existiert bereits und wird nicht angelegt.")
 
           }else{
               console.log("Fehler: " + fehler )
           }
       }else{
-              console.log("Tabelle kredit erfolgreich angelegt.")
+              console.log("Tabelle konto erfolgreich angelegt.")
        }
     })
 });
@@ -167,7 +167,7 @@ dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALL
             console.log("Fehler: " + fehler )
         }
     }else{
-            console.log("Tabelle kredit erfolgreich angelegt.")
+            console.log("Tabelle kontobewegung erfolgreich angelegt.")
     }
 })
 
@@ -179,19 +179,19 @@ dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort,
     
     if (fehler) {
     
-        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+        // ... und der Fehlercode "ER_DUP_ENTRY" lautet, ...
 
-        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+        if(fehler.code == "ER_DUP_ENTRY"){
 
             //... dann wird eine Fehlermdldung geloggt. 
 
-            console.log("Tabelle kunde existiert bereits und wird nicht angelegt.")
+            console.log("Der Kunde 150000 existiert bereits und wird nicht angelegt.")
         
         }else{
             console.log("Fehler: " + fehler )
         }
     }else{
-            console.log("Tabelle kunde erfolgreich angelegt.")
+            console.log("Kunde 150000 erfolgreich angelegt.")
     }
 });
 
@@ -227,6 +227,57 @@ class Kunde{
         this.Rufnummer
     }
 }
+
+// Die Tabelle Bank wird angelegt, damit die Daten der Bank nicht hart in die server.js eincodiert werden müssen.
+
+dbVerbindung.query('CREATE TABLE bank(name VARCHAR(45), strasse VARCHAR(45), postleitzahl INT(11), ort VARCHAR(45), telefonnummer VARCHAR(45), bankleitzahl INT(8), ceo VARCHAR(45), PRIMARY KEY(bankleitzahl));', function (fehler) {
+      
+    // Falls ein Problem bei der Query aufkommt, ...
+    
+    if (fehler) {
+    
+        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+
+        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+
+            //... dann wird eine Fehlermedldung geloggt. 
+
+            console.log("Tabelle bank existiert bereits und wird nicht angelegt.")
+        
+        }else{
+            console.log("Fehler: " + fehler )
+        }
+    }else{
+            console.log("Tabelle bank erfolgreich angelegt.")
+    }
+})
+
+// Die Bankdaten werden eingefügt. 
+
+dbVerbindung.query('INSERT INTO bank(name, strasse, postleitzahl, ort, telefonnummer, bankleitzahl, ceo) VALUES ("N27-Bank", "Josefstraße", 46325, "Borken", "02861 90990-0", 27000000, "Kurt Cobain") ;', function (fehler) {
+      
+    // Falls ein Problem bei der Query aufkommt, ...
+    
+    if (fehler) {
+    
+        // ... und der Fehlercode "ER_DUP_ENTRY" lautet, ...
+
+        if(fehler.code == "ER_DUP_ENTRY"){
+
+            //... dann wird eine Fehlermedldung geloggt. 
+
+            console.log("Die Bank ist bereits in der Tabelle bank angelegt.")
+        
+        }else{
+            console.log("Fehler: " + fehler )
+        }
+    }else{
+            console.log("Tabelle bank erfolgreich angelegt.")
+    }
+});
+
+
+
 
 class Kundenberater{
     constructor(){
@@ -274,17 +325,17 @@ dbVerbindung.query('INSERT INTO kundenberater(idKundenberater, vorname, nachname
     
         // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
 
-        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+        if(fehler.code == "ER_DUP_ENTRY"){
 
             //... dann wird eine Fehlermdldung geloggt. 
 
-            console.log("Tabelle kundenberater existiert bereits und wird nicht angelegt.")
+            console.log("Der Kundenberater max.mueller@n27.com existiert bereits und wird nicht angelegt.")
         
         }else{
             console.log("Fehler: " + fehler )
         }
     }else{
-            console.log("Tabelle kundenberater erfolgreich angelegt.")
+            console.log("Kundenberater max.mueller@n27.com erfolgreich angelegt.")
     }
 });
 
