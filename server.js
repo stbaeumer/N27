@@ -531,10 +531,65 @@ meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
-        // Die About-Seite wird an den Browser gegeben:
+        // ToDo: Unsere Bank aus der Datenbank auslesen 
 
-        serverAntwort.render('about.ejs',{})
+        dbVerbindung.query('SELECT * FROM bank WHERE bankleitzahl = 27000000;', function (fehler, result) {      
+            
+            console.log(result)
 
+            // Ein neues Bankobjekt wird instanziiert
+
+            class Bank{
+                constructor(){
+                    this.Name
+                    this.Strasse
+                    this.Postleitzahl
+                    this.Ort
+                    this.Telefonnummer
+                    this.Bankleitzahl
+                    this.CEO
+                }
+            }
+            
+            let bank = new Bank();
+
+            if(result.length === 0){
+
+                // Wenn es keinen Kundenberater in der Datenbank gibt, werden die Werte wie folgt gesetzt:
+
+                bank.Name = "N.N."
+                bank.Strasse = "N.N."
+                bank.Postleitzahl = ""
+                bank.Ort = ""
+                bank.Telefonnummer = ""
+                bank.Bankleitzahl = ""
+                bank.CEO = ""
+
+            }else{
+
+                // Wenn der result nicht leer ist, wird das erste Objekt mit seinen Eigenschaften aus dem result zugewiesen.
+
+                bank.Name = result[0].name
+                bank.Strasse = result[0].strasse
+                bank.Postleitzahl = result[0].postleitzahl
+                bank.Ort = result[0].ort
+                bank.Telefonnummer = result[0].telefonnummer
+                bank.Bankleitzahl = result[0].bankleitzahl
+                bank.CEO = result[0].ceo
+            }
+
+            // Die Support-Seite wird an den Browser gegeben (man sagt auch gerendert):
+
+            serverAntwort.render('about.ejs', {
+                Name: bank.Name,
+                Strasse: bank.Strasse,
+                Postleitzahl: bank.Postleitzahl,
+                Ort: bank.Ort,
+                Telefonnummer: bank.Telefonnummer,
+                Bankleitzahl: bank.Bankleitzahl,
+                CEO: bank.CEO
+            })
+        })
     }else{
 
         // Wenn der Kunde noch nicht eigeloggt ist, soll
