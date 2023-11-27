@@ -10,6 +10,7 @@ var IBAN = require('iban');
 // Außerdem ermöglicht die Datenbank, dass z.B. Geldüberweisungen
 // zwischen Anwendern möglich werden.
 
+
 var mysql = require('mysql'); 
 
 // Die Verbindung zur Datenbank wird hergestellt. Dazu werden die
