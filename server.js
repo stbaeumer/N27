@@ -10,7 +10,6 @@ var IBAN = require('iban');
 // Außerdem ermöglicht die Datenbank, dass z.B. Geldüberweisungen
 // zwischen Anwendern möglich werden.
 
-
 var mysql = require('mysql'); 
 
 // Die Verbindung zur Datenbank wird hergestellt. Dazu werden die
@@ -64,11 +63,10 @@ dbVerbindung.connect(function(fehler){
   // idKunde ist Primary Key. Das bedeutet, dass die idKunde den Datensatz eindeutig
   // kennzeichnet. Das wiederum bedeutet, dass kein zweiter Kunde mit derselben idKunde angelegt werden kann.
 
-dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), idKundenberater INT(11), PRIMARY KEY(idKunde));', function (fehler) {
+dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), idKundenberater INT(11), nutzungsbedingungAkzeptiert VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
     
     // Falls ein Problem bei der Query aufkommt, ...
-
-    
+ 
     if (fehler) {
     
         // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
@@ -174,7 +172,7 @@ dbVerbindung.query('CREATE TABLE kontobewegung(timestamp TIMESTAMP, betrag SMALL
 
 // Ein Kunde soll neu in der Datenbank angelegt werden.
 
-dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail, idKundenberater) VALUES (150000, "Pit", "Kiff", "BOR", "123", "pk@web.de", 145) ;', function (fehler) {
+dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail, idKundenberater, nutzungsbedingungAkzeptiert) VALUES (150000, "Pit", "Kiff", "BOR", "123", "pk@web.de", 145, "nein") ;', function (fehler) {
       
     // Falls ein Problem bei der Query aufkommt, ...
     
@@ -404,9 +402,18 @@ meineApp.get('/',(browserAnfrage, serverAntwort, next) => {
 
     if(browserAnfrage.signedCookies['istAngemeldetAls']){
         
+        // Eine Variable namens nutzungsbedingungAkzeptiert wird erzeugt und mit der
+        // Datenbank (Tabelle kunde, Eigenschaft: nutzungsbedingungAkzeptiert, Typ VARCHAR45 (ja/nein)) abgeglichen
+
+        let nutzungsbedingungAkzeptiert = "disabled"
+
+
+
         // Die Index-Seite wird an den Browser gegeben:
 
-        serverAntwort.render('index.ejs',{})
+        serverAntwort.render('index.ejs',{
+            enabledOderDisabled: nutzungsbedingungAkzeptiert
+        })
     }else{
 
         // Wenn der Kunde noch nicht eigeloggt ist, soll
@@ -473,6 +480,8 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
             kunde.Mail = result[0].mail
             kunde.Kennwort = result[0].kennwort
             kunde.Ort = result[0].ort
+            kunde.IdKundenberater = result[0].idKundenberater
+            kunde.NutzungsbedingungAkzeptiert = result[0].nutzungsbedingungAkzeptiert
 
             console.log(kunde)
 
@@ -491,7 +500,21 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
             // UND ("&&") das Kennwort ebenfalls übereinstimmt,
             // dann gibt der Server die gerenderte Index-Seite zurück.
             
-            serverAntwort.render('index.ejs', {})
+
+            // Die lokale Variable enabledOderDisabled bekommt standtartmäßig den Wert disabled.
+            
+            let enabledOderDisabled = "disabled"
+
+            // Wenn in der Datenbank der Wert von kunde.NutzungsbedingungAkzeptiert === "ja" ist, dann wird die lokale Variable
+            // mit dem Wert "enabled" initialisiert.
+
+            if(kunde.NutzungsbedingungAkzeptiert === 'ja'){
+                enabledOderDisabled = "enabled"
+            }
+
+            serverAntwort.render('index.ejs', {
+                enabledOderDisabled: enabledOderDisabled
+            })
 
         }else{
     

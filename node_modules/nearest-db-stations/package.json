@@ -1,0 +1,44 @@
+{
+  "name": "nearest-db-stations",
+  "version": "1.0.0",
+  "description": "Find the nearest DB Stations given a Latitude and a Longitude",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steffenmllr/nearest-db-stations.git"
+  },
+  "keywords": [
+    "db",
+    "deutsche",
+    "bahn",
+    "german",
+    "railway",
+    "public",
+    "transport",
+    "stations",
+    "geo",
+    "data",
+    "nearest",
+    "station"
+  ],
+  "author": "Steffen Müller <steffen@mllrsohn.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steffenmllr/nearest-db-stations/issues"
+  },
+  "homepage": "https://github.com/steffenmllr/nearest-db-stations#readme",
+  "dependencies": {
+    "@turf/distance": "^6.0.1",
+    "@turf/helpers": "^6.1.4",
+    "db-stations": "v2",
+    "geokdbush": "^1.1.0",
+    "kdbush": "^2.0.1"
+  },
+  "devDependencies": {
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  }
+}

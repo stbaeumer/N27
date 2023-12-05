@@ -33,17 +33,19 @@
         </div>
         <div class="inhaltsbereich">
             <form>
-                <button class="login" formaction="/kontoAnlegen" >Konto anlegen</button>
-                <br>
-                <button class="login" formaction="/kontostandAnzeigen">Kontostand anzeigen</button>
-                <br>
-                <button class="login" formaction="/ueberweisungTaetigen">Überweisung tätigen</button>
-                <br>
-                <button class="login" formaction="/kontobewegungAnzeigen">Kontobewegung anzeigen</button>
-                <br>
-                <button class="login" formaction="/kreditBerechnen">Kredit berechnen</button>
-                <br>
-                <button class="login" formaction="/geldAnlegen">Geld anlegen</button>
+                <fieldsset class="fieldset" <%= enabledOderDisabled %>="<%= enabledOderDisabled %>">
+                    <button class="login" formaction="/kontoAnlegen" >Konto anlegen</button>
+                    <br>
+                    <button class="login" formaction="/kontostandAnzeigen">Kontostand anzeigen</button>
+                    <br>
+                    <button class="login" formaction="/ueberweisungTaetigen">Überweisung tätigen</button>
+                    <br>
+                    <button class="login" formaction="/kontobewegungAnzeigen">Kontobewegung anzeigen</button>
+                    <br>
+                    <button class="login" formaction="/kreditBerechnen">Kredit berechnen</button>
+                    <br>
+                    <button class="login" formaction="/geldAnlegen">Geld anlegen</button>
+                </fieldset>
             </form>
         </div>
         <div class="fusszeile">

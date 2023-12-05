@@ -11,11 +11,11 @@
     "express": "^4.17.1",
     "iban": "0.0.12",
     "mysql": "^2.18.1",
+    "nearest-db-stations": "^1.0.0",
     "node-ts-open-weather-map": "^1.2.1",
     "nodemon": "^1.19.4",
     "weather-js": "^2.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
