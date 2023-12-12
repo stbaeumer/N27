@@ -407,7 +407,24 @@ meineApp.get('/',(browserAnfrage, serverAntwort, next) => {
 
         let nutzungsbedingungAkzeptiert = "disabled"
 
+        // Der Cookie wird auf der Console geloggt: {"IdKunde":150000,"Nachname":"Kiff","Vorname":"Pit","Mail...
 
+        console.log(browserAnfrage.signedCookies['istAngemeldetAls'])
+
+        // Ein Kundenobjekt wird mit allen Eigenschaften und Eigenschaftswerten aus dem Cookie instanziiert und intitialisiert
+
+        const kunde = JSON.parse(browserAnfrage.signedCookies['istAngemeldetAls'])
+
+        console.log(kunde)
+
+        // Wenn die Nutzungsbedingung im Cookie mit "ja" gespeichert ist, dann wird die lokale Variable
+        // nutzugsbedingungAkzeptiert mit "enabled" überschrieben.
+
+        if(kunde.NutzungsbedingungAkzeptiert === "ja"){
+
+            nutzungsbedingungAkzeptiert = "enabled"
+            console.log("Die Nutzungsbedingungen wurden bereits akzeptiert.")
+        }
 
         // Die Index-Seite wird an den Browser gegeben:
 
@@ -444,7 +461,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
     // Die Identität des Kunden wird überprüft.
     // Dazu wird die Tabelle Kunde auf einen Kunden mit IdKunde und Kennwort abgefragt.
     
-    dbVerbindung.query('SELECT * FROM kunde WHERE idKunde = ' + idKunde + ' AND kennwort ="' + kennwort + '";', function (fehler, result) {      
+    dbVerbindung.query('SELECT * FROM kunde WHERE idKunde = ' + idKunde + ' AND kennwort ="' + kennwort + '";', function (fehler, result) {
         
         // Der oder die zurückgegebenen Datensätze stecken im result und werden auf der Konsole geloggt.
 

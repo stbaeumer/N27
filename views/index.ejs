@@ -33,7 +33,8 @@
         </div>
         <div class="inhaltsbereich">
             <form>
-                <fieldsset class="fieldset" <%= enabledOderDisabled %>="<%= enabledOderDisabled %>">
+                <button class="nutzungsbedingungen" formaction="/nutzungsbedingungenAkzeptieren" >Nutzungsbedingungen</button>
+                <fieldset class="fieldset" <%= enabledOderDisabled %>="<%= enabledOderDisabled %>">
                     <button class="login" formaction="/kontoAnlegen" >Konto anlegen</button>
                     <br>
                     <button class="login" formaction="/kontostandAnzeigen">Kontostand anzeigen</button>

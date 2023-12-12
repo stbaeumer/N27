@@ -69,6 +69,19 @@ select {
   cursor: pointer;
   font-size: 3vh;  
 }
+
+.nutzungsbedingungen {
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  background-color:red;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 2vh;  
+}
     
 label {
   width: 80%;
