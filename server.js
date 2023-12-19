@@ -98,7 +98,7 @@ dbVerbindung.connect(function(fehler){
   
           if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
   
-              //... dann wird eine Fehlermdldung geloggt. 
+              //... dann wird eine Fehlermeldung geloggt. 
   
               console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
           
@@ -1440,6 +1440,22 @@ meineApp.post('/geldAnlegen',(browserAnfrage, serverAntwort, next) => {
             Meldung: ""
         })
     }              
+})
+
+
+meineApp.get('/nutzungsbedingungenAkzeptieren',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        
+        serverAntwort.render('nutzungsbedingungenAkzeptieren.ejs', {                
+        })        
+
+    }else{
+        
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }         
 })
 
 
